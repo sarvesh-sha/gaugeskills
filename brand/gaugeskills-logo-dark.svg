@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 296 96" width="296" height="96" role="img" aria-label="GuageSkill">
-  <title>GuageSkill</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 316 96" width="316" height="96" role="img" aria-label="GaugeSkills">
+  <title>GaugeSkills</title>
   <g transform="translate(-22.25,-11.375) scale(1.25)">
     <path d="M25.48 67 A26 26 0 0 1 31.29 34.08" fill="none" stroke="#FFFFFF" stroke-opacity="0.28" stroke-width="9" stroke-linecap="round"/>
     <path d="M33.09 32.70 A26 26 0 0 1 66.38 35.62" fill="none" stroke="#0E7490" stroke-width="9" stroke-linecap="round"/>
@@ -8,6 +8,6 @@
     <circle cx="48" cy="54" r="4.8" fill="#FFFFFF"/>
   </g>
   <text x="88" y="62" font-family="Poppins, 'Segoe UI', Inter, Arial, sans-serif" font-size="36" font-weight="700" letter-spacing="-0.8">
-    <tspan fill="#FFFFFF">Guage</tspan><tspan fill="#22D3EE">Skill</tspan>
+    <tspan fill="#FFFFFF">Gauge</tspan><tspan fill="#22D3EE">Skills</tspan>
   </text>
 </svg>

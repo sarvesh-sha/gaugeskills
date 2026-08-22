@@ -1,14 +1,14 @@
 {
-  "name": "GuageSkill — AI-native LMS for Indian colleges",
-  "short_name": "GuageSkill",
-  "description": "GuageSkill is an AI-native learning management system for Indian colleges. An AI tutor for every student, a content studio for faculty, and a measurement layer that shows leadership what is actually being taught.",
+  "name": "GaugeSkills — AI-native LMS for Indian colleges",
+  "short_name": "GaugeSkills",
+  "description": "GaugeSkills is an AI-native learning management system for Indian colleges. An AI tutor for every student, a content studio for faculty, and a measurement layer that shows leadership what is actually being taught.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#F4F7FA",
   "theme_color": "#0B1220",
   "icons": [
     {
-      "src": "brand/guageskill-icon.svg",
+      "src": "brand/gaugeskills-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"

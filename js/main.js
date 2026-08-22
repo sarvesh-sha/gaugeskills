@@ -278,7 +278,7 @@
         .filter(([, value]) => String(value).trim())
         .map(([key, value]) => `${key}: ${value}`);
 
-      return `mailto:hello@guageskill.com?subject=${encodeURIComponent(
+      return `mailto:hello@gaugeskills.com?subject=${encodeURIComponent(
         `Pilot request — ${data.institution}`,
       )}&body=${encodeURIComponent(lines.join("\n"))}`;
     };

@@ -1,5 +1,5 @@
 User-Agent: *
 Allow: /
 
-Host: https://guageskill.com
-Sitemap: https://guageskill.com/sitemap.xml
+Host: https://gaugeskills.com
+Sitemap: https://gaugeskills.com/sitemap.xml
