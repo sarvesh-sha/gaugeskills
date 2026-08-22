@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://guageskill.com
+Sitemap: https://guageskill.com/sitemap.xml
