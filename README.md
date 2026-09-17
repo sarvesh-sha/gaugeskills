@@ -1,154 +1,161 @@
-# Static build
+# GaugeSkills marketing site
 
-A plain HTML/CSS/JS copy of the marketing site — no React, no Next.js, no
-runtime dependencies. Open `index.html` in a browser, or drop the folder on any
-static host.
+A static site — no React, no Next.js, **no runtime dependencies**. The HTML is
+generated at build time and the deployed folder is plain files, so it can be
+opened straight off a disk or dropped on any static host.
+
+GaugeSkills is positioned as one AI-powered Skills & Learning Intelligence
+platform with three solution lines — Schools, Higher Education and Enterprise —
+sharing a common platform, AI and analytics layer.
 
 ```
-static/
-  index.html               homepage
-  platform.html            full capability list
-  students.html  faculty.html  parents.html  leadership.html  security.html
-  pricing.html   demo.html
-  about.html     blog.html
-  privacy.html   terms.html
-  404.html
-  css/tailwind.css         stylesheet source — edit this
-  css/fonts.css            @font-face rules — generated, do not edit
-  css/styles.css           compiled output — generated, do not edit
-  js/main.js               all interactive behaviour
-  fonts/                   self-hosted Inter and Poppins
-  og/                      1200x630 social share images, one per page
-  brand/                   logo assets
-  manifest.webmanifest  sitemap.xml  robots.txt
+index.html                 homepage
+platform.html  ai.html  skills.html          the common platform
+schools.html   higher-education.html  enterprise.html
+students.html  faculty.html  leadership.html  parents.html
+ai-tutor.html  ai-for-faculty.html  student-performance-analytics.html
+at-risk-students.html  employee-skill-assessment.html
+skills-gap-analysis.html  upskilling.html  reskilling.html
+security.html  pricing.html  demo.html  about.html
+privacy.html   terms.html    404.html
+blog.html
+blog/                      category hubs and articles
+css/tailwind.css           stylesheet source — edit this
+css/fonts.css              @font-face rules — generated, do not edit
+css/styles.css             compiled output — generated, do not edit
+js/main.js                 all interactive behaviour
+fonts/                     self-hosted Inter and Poppins
+og/                        1200x630 share images
+brand/                     logo assets
+tools/build/               the generator — never shipped to the browser
+manifest.webmanifest  sitemap.xml  robots.txt  CNAME
 ```
 
-Pages link to each other by filename, so the whole site works from the file
-system without a server. On a real host, map `404.html` to your not-found
-handler (Netlify and Vercel pick it up automatically; nginx needs
-`error_page 404 /404.html`).
-
-## Rebuilding
+## Building
 
 ```bash
-npm run static          # regenerate the pages, then the CSS
-npm run static:pages    # HTML only
-npm run static:css      # CSS only
-npm run static:watch    # rebuild CSS on change
-npm run static:audit    # check the SEO of the built output
+npm install             # build-time only: Tailwind CLI
+npm run build           # regenerate the pages, then the CSS
+npm run build:pages     # HTML only
+npm run build:css       # CSS only
+npm run watch:css       # rebuild CSS on change
+npm run audit           # check the SEO of the built output
+npm run check           # build then audit
 ```
 
-Two steps are deliberately not part of `npm run static`, because they hit the
-network or need a browser and their output rarely changes:
+Share images need a browser and their output rarely changes, so they are not
+part of `npm run build`:
 
 ```bash
-npm run static:fonts    # re-download Inter and Poppins into fonts/
-npm run static:og       # re-render the og/ share images (needs Edge installed)
+node tools/build/og.mjs            # re-render every og/ image (needs Edge)
+node tools/build/og.mjs schools    # or just one
 ```
 
-**The HTML files are generated** by `tools/static/build.mjs`, so that the
-header, footer and shared section markup are defined once rather than fifteen
-times. Copy lives in `tools/static/content.mjs` and `tools/static/pages.mjs`.
+**The HTML files are generated.** Editing `schools.html` by hand will work until
+the next build overwrites it. Edit the source instead:
 
-If you would rather hand-edit the HTML directly, that is fine — the output has
-no build-time dependencies. Just delete `tools/static/` first so nothing
-overwrites your changes later.
+| File | What lives there |
+| --- | --- |
+| `tools/build/site.mjs` | Brand constants, navigation, footer, the three solution lines, logo SVG |
+| `tools/build/layout.mjs` | `<head>`, header, footer, and the relative-link resolver |
+| `tools/build/sections.mjs` | The reusable section components every page is built from |
+| `tools/build/seo.mjs` | Structured-data builders |
+| `tools/build/pages.mjs` | Registry for pages whose body is reused verbatim |
+| `tools/build/content/` | One module per page, holding that page's copy |
+| `tools/build/content/legacy/` | Page bodies extracted from the original hand-authored HTML |
 
-The stylesheet is Tailwind v4 compiled ahead of time. Utility classes stay in
+`content/legacy/` exists so that pages which did not need rewriting keep their
+exact copy while still picking up the shared header, footer and metadata. To
+convert one of them into a composed page, write a module in `content/` that
+builds the body from `sections.mjs` and drop its entry from `legacyPages`.
+
+The stylesheet is Tailwind v4 compiled ahead of time. Utility classes live in
 the markup, which means **the CSS has to be recompiled after any HTML change**
-or newly used utilities will be missing. `css/tailwind.css` carries the same
-`@theme` tokens as the Next.js app, so the two stay visually identical.
+or newly used utilities will be missing. `npm run build` does both in the right
+order — pages first, then CSS, because the CSS is compiled from the pages.
+
+## Links and URLs
+
+Internal links are declared site-absolute in the source (`/platform`) and
+rendered as relative hrefs (`platform.html`, or `../platform.html` from inside
+`blog/`), so the built folder still works from the file system. Canonical URLs,
+the sitemap and `og:url` all use extensionless paths.
+
+**This only agrees on a host that serves clean URLs.** GitHub Pages, Netlify,
+Vercel and Cloudflare Pages all do. A plain nginx or Apache setup will not:
+`/platform` would 404 while every canonical tag points at it. Either enable
+extensionless URLs on the server, or change `canonical` in the page registry to
+include `.html`.
+
+The site is deployed to GitHub Pages behind the domain in `CNAME`. GitHub Pages
+serves static files only and cannot issue a 301, which is why no existing URL
+was retired in the redesign — pages that changed role were rewritten in place.
 
 ## Fonts
 
 Inter and Poppins are self-hosted in `fonts/` rather than fetched from Google,
-so a first visit makes no third-party request and the render-blocking stylesheet
-on `fonts.googleapis.com` is gone. `tools/static/fonts.mjs` downloads them,
-keeping only the Latin subsets and deduplicating: Google advertises Inter once
-per weight but serves the same variable file each time, so four downloads
-collapse into one `@font-face` with a `400 700` range. That takes the font
-payload from 547 KB to 156 KB.
-
-The two faces needed for the first paint are preloaded in `<head>`. Rendering is
-byte-identical to the Google-hosted versions — same element geometry and page
-height on all fourteen pages.
+so a first visit makes no third-party request. Only the Latin subsets are kept,
+and Inter is deduplicated into a single `400 700` variable face. The two faces
+needed for the first paint are preloaded in `<head>`.
 
 ## JavaScript
 
-`js/main.js` replaces what Motion and the React client components did — the
-header shadow, the mobile menu, scroll-reveal transitions, the animated
-progress bars, the audience tabs, the AI tutor typing sequence and the demo
-form.
+`js/main.js` is the only script: the header shadow, the desktop dropdown menus,
+the mobile menu, scroll-reveal transitions, the animated progress bars, the
+audience tabs, the AI tutor typing sequence and the demo form.
 
-Everything degrades: the markup is authored in its finished state and the
-inline script in `<head>` sets `class="js"` on `<html>`, which is what switches
-on the hidden starting states. With JavaScript off the page renders complete and
-static, and the FAQ still works through native `<details>`.
+Everything degrades. Markup is authored in its finished state and the inline
+script in `<head>` sets `class="js"` on `<html>`, which is what switches on the
+hidden starting states. With JavaScript off the page renders complete and
+static, the FAQ still works through native `<details>`, and so does the mobile
+navigation.
 
 ## The demo form
 
-`demo.html` validates on the client exactly as the React version did, but a
-static site has no `/api/demo` to post to. While `FORM_ENDPOINT` at the top of
-`js/main.js` is empty, a valid submission opens the visitor's mail client with
-the answers pre-filled and says so. Set that constant to a form endpoint
-(Formspree, Basin, a Lambda, your CRM) and it will POST JSON instead.
+`demo.html` validates on the client, but a static site has no endpoint to post
+to. While `FORM_ENDPOINT` at the top of `js/main.js` is empty, a valid
+submission opens the visitor's mail client with the answers pre-filled and says
+so. Set that constant to a form endpoint (Formspree, Basin, a Lambda, your CRM)
+and it will POST JSON instead.
 
 ## SEO
 
 Every page carries its own `<title>`, meta description, canonical URL, robots
-directive, Open Graph and Twitter card tags, and a JSON-LD graph. Run
-`npm run static:audit` after any change; it fails the build on duplicate titles
-or descriptions, missing or overlong metadata, more than one `<h1>`, invalid
-JSON-LD, a missing `og:image` file, broken internal links, or a sitemap that has
-drifted out of step with the indexable pages.
+directive, Open Graph and Twitter card tags, and a JSON-LD graph.
 
 Structured data is one connected `@graph` per page rather than isolated blobs.
 `Organization` and `WebSite` are declared with stable `@id`s and referenced by
-every page's `WebPage` node, so search engines treat all fourteen pages as one
-entity. Inner pages add a `BreadcrumbList`; the homepage adds
-`SoftwareApplication` and `FAQPage`.
+every page's `WebPage` node, so search engines treat the whole site as one
+entity. Inner pages add a `BreadcrumbList`, the homepage and `/platform` add
+`SoftwareApplication`, pages with an FAQ add `FAQPage`, and blog posts add
+`Article`.
 
-Share images in `og/` are real 1200x630 PNGs — one per page, captioned with that
-page's headline — because social crawlers do not render SVG.
+Run `npm run audit` after any change. It fails on duplicate titles or
+descriptions, missing or overlong metadata, more than one `<h1>`, heading-level
+jumps, invalid JSON-LD, a missing `og:image`, broken internal links, missing
+assets, images without `alt`, and a sitemap that has drifted out of step with
+the indexable pages.
 
-`404.html` is the only page marked `noindex`, and it is the only one kept out of
-`sitemap.xml`.
+If the domain ever changes, `site.url` in `tools/build/site.mjs` is the single
+place every absolute URL is derived from — plus the `Host` line in `robots.txt`
+and the `CNAME` file.
 
-Two things to change before going live if the domain differs: `site.url` in
-`tools/static/content.mjs`, which every absolute URL is derived from, and the
-`Host` line in `robots.txt`.
+## Content rules
 
-**Check this before launch.** Links between pages use filenames (`platform.html`)
-so the folder works straight off a disk, but canonical URLs, the sitemap and
-`og:url` all declare extensionless paths (`/platform`). Hosts that serve clean
-URLs — Netlify, Vercel, Cloudflare Pages, GitHub Pages — redirect one to the
-other and the two agree. A plain nginx or Apache setup will not: `/platform`
-returns 404 while every canonical tag points at it, which is worse than having
-no canonical at all. Either enable extensionless URLs on the server, or change
-`canonical`/`sitemapRoutes` in `tools/static/` to include `.html`.
+These are enforced by review, not by the linter, and they matter:
 
-## Differences from the Next.js version
-
-All deliberate:
-
-- The 404 page has its own `<title>`; in the app it inherits the homepage one.
-- Page titles and share metadata are per-page. The app emits the homepage
-  `og:title` and `og:description` on every route.
-- Six feature-page titles were rewritten to carry a keyword rather than a bare
-  label — "Platform overview" became "LMS platform overview", "For students"
-  became "AI tutor and quizzes for students", and so on. Revert them in
-  `tools/static/pages.mjs` if you would rather keep the originals.
-- Inactive audience tabs stay in the DOM and are hidden, rather than being
-  unmounted, and the tabs gained arrow-key navigation.
-- `role="tablist"` sits on the button row instead of a wrapper that also
-  contained the panel.
-- The about and blog pages point at `tools/static/pages.mjs` rather than the
-  React source files, and the blog no longer mentions MDX.
+- No invented customers, logos, testimonials, case studies, statistics,
+  certifications, awards or performance numbers. There are none yet.
+- Every dashboard shown on the site is markup, not a screenshot, and every one
+  of them is labelled "Illustrative dashboard. Not customer data."
+- Benefit first, mechanism second. "See which students need help before they
+  fall behind", then "Learning-gap identification" underneath it.
+- AI assists people. Every AI output is a draft a human reviews and approves,
+  and the site says so rather than implying autonomy.
 
 ## Still to do
 
-- `blog.html` has no posts. Until it does, it is a thin page; consider dropping
-  it from `sitemap.xml` rather than asking Google to index an empty listing.
-- Nothing here can set HTTP headers. Compression, cache lifetimes for
-  `fonts/` and `og/`, and HTTPS redirects are your host's job, and they matter
-  as much to page speed as anything in this folder.
+- `Case Studies` and `Reports` are deliberately absent from the Resources menu
+  until there is real content behind them.
+- Nothing here can set HTTP headers. Compression, cache lifetimes for `fonts/`
+  and `og/`, and HTTPS redirects are the host's job.

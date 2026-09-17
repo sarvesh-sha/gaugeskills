@@ -1,7 +1,7 @@
 {
-  "name": "GaugeSkills — AI-native LMS for Indian colleges",
+  "name": "GaugeSkills — AI-powered Skills & Learning Intelligence Platform",
   "short_name": "GaugeSkills",
-  "description": "GaugeSkills is an AI-native learning management system for Indian colleges. An AI tutor for every student, a content studio for faculty, and a measurement layer that shows leadership what is actually being taught.",
+  "description": "GaugeSkills is an AI-powered Skills & Learning Intelligence platform that helps schools, colleges and enterprises assess skills, identify gaps, personalize learning and measure growth.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#F4F7FA",

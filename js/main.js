@@ -97,6 +97,67 @@
     });
   }
 
+  /* --------------------------------------------------------- dropdown nav */
+
+  // Desktop only. The mobile navigation uses native <details> elements, which
+  // need no script at all.
+  const dropdowns = select("[data-dropdown]").map((root) => {
+    const toggle = root.querySelector("[data-dropdown-toggle]");
+    const panel = root.querySelector("[data-dropdown-panel]");
+    const chevron = root.querySelector("[data-dropdown-chevron]");
+    return { root, toggle, panel, chevron };
+  });
+
+  if (dropdowns.length) {
+    const setOpen = (entry, open) => {
+      entry.panel.hidden = !open;
+      entry.toggle.setAttribute("aria-expanded", String(open));
+      entry.chevron?.classList.toggle("rotate-180", open);
+    };
+
+    const closeAll = (except) => {
+      dropdowns.forEach((entry) => {
+        if (entry !== except) setOpen(entry, false);
+      });
+    };
+
+    dropdowns.forEach((entry) => {
+      entry.toggle.addEventListener("click", () => {
+        const open = entry.panel.hidden;
+        closeAll(entry);
+        setOpen(entry, open);
+      });
+
+      // Pointer users expect hover; keyboard users get click and Escape.
+      entry.root.addEventListener("pointerenter", (event) => {
+        if (event.pointerType !== "mouse") return;
+        closeAll(entry);
+        setOpen(entry, true);
+      });
+
+      entry.root.addEventListener("pointerleave", (event) => {
+        if (event.pointerType !== "mouse") return;
+        setOpen(entry, false);
+      });
+
+      entry.root.addEventListener("focusout", (event) => {
+        if (!entry.root.contains(event.relatedTarget)) setOpen(entry, false);
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      const open = dropdowns.find((entry) => !entry.panel.hidden);
+      if (!open) return;
+      setOpen(open, false);
+      open.toggle.focus();
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest("[data-dropdown]")) closeAll();
+    });
+  }
+
   /* ------------------------------------------------- scroll-in transitions */
 
   observeOnce(
@@ -268,7 +329,10 @@
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email ?? "")) {
         errors.email = "Enter an email we can reply to.";
       }
-      if (!data.institution?.trim()) errors.institution = "Which college or university?";
+      if (!data.institution?.trim()) {
+        errors.institution = "Which school, college or organization?";
+      }
+      if (!data.organizationType) errors.organizationType = "Pick the closest type.";
       if (!data.role) errors.role = "Pick the closest role.";
       return errors;
     };
@@ -279,7 +343,7 @@
         .map(([key, value]) => `${key}: ${value}`);
 
       return `mailto:hello@gaugeskills.com?subject=${encodeURIComponent(
-        `Pilot request — ${data.institution}`,
+        `Demo request — ${data.institution}`,
       )}&body=${encodeURIComponent(lines.join("\n"))}`;
     };
 
