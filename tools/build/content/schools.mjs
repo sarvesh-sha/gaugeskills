@@ -209,10 +209,10 @@ const s8 = ctaBand({
 const s9 = relatedLinks(
   [
     { label: "AI tutor", path: "/ai-tutor", note: "What the tutor does, and what it deliberately will not do." },
-    { label: "The platform", path: "/platform", note: "The common layer underneath all three solution lines." },
+    { label: "AI quiz generator", path: "/ai-quiz-generator", note: "Class tests built from a blueprint, reviewed before they go out." },
+    { label: "Learning paths", path: "/learning-paths", note: "Remediation aimed at the concept that never got solid." },
     { label: "For parents", path: "/parents", note: "The parent view, scoped to linked children only." },
     { label: "Skills", path: "/skills", note: "How a skill is measured rather than self-reported." },
-    { label: "Higher Education", path: "/higher-education", note: "The same platform, for colleges and universities." },
     { label: "Security", path: "/security", note: "Tenancy, access control and integration scope." },
   ],
   rel,

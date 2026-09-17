@@ -271,7 +271,7 @@ const competencyManagement = (a) => [
 
   h2(`What to give up`),
   p(`Some precision, deliberately. A coarse framework that managers use beats a precise one they route around, and the fastest way to lose adoption is to demand a level of detail that only the people who wrote it can sustain. Complete coverage is also worth giving up early. Starting with the job families where hiring is hardest produces evidence of value; starting everywhere produces a two-year programme with a steering committee.`),
-  p(`Underneath all of this is a single idea. Competency management is not an inventory exercise, it is a decision-support system that happens to be built out of vocabulary. Judge it the way you would judge any other system: by whether the decisions it touches get made faster, more consistently, and with fewer surprises six months later. If you are rebuilding one, ${a("/enterprise", "the workforce side of the platform")} is designed around that assumption rather than around annual reporting.`),
+  p(`Underneath all of this is a single idea. Competency management is not an inventory exercise, it is a decision-support system that happens to be built out of vocabulary. Judge it the way you would judge any other system: by whether the decisions it touches get made faster, more consistently, and with fewer surprises six months later. If you are rebuilding one, ${a("/competency-management", "how we model competency management")} is designed around that assumption rather than around annual reporting.`),
 ];
 
 /* ----------------------------------------------------------- article four */

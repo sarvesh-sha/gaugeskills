@@ -140,9 +140,10 @@ export const footerNav = [
     heading: "Topics",
     links: [
       { label: "AI tutor", path: "/ai-tutor" },
+      { label: "Learning paths", path: "/learning-paths" },
       { label: "Skills gap analysis", path: "/skills-gap-analysis" },
-      { label: "Upskilling", path: "/upskilling" },
-      { label: "At-risk students", path: "/at-risk-students" },
+      { label: "Competency management", path: "/competency-management" },
+      { label: "Workforce analytics", path: "/workforce-analytics" },
       { label: "Blog", path: "/blog" },
     ],
   },

@@ -248,12 +248,12 @@ const s8 = ctaBand({
 
 const s9 = relatedLinks(
   [
-    { label: "Skills", path: "/skills", note: "What a skill level means here, and how it is arrived at." },
     { label: "Skills gap analysis", path: "/skills-gap-analysis", note: "Comparing measured skills against what a role requires." },
     { label: "Employee skill assessment", path: "/employee-skill-assessment", note: "How an assessment is scoped, run and scored." },
+    { label: "Competency management", path: "/competency-management", note: "The definitions and role standards everything else is measured against." },
+    { label: "Workforce analytics", path: "/workforce-analytics", note: "Capability coverage, role readiness and whether the spend moved anything." },
     { label: "Upskilling", path: "/upskilling", note: "Deepening the skills a role already needs today." },
     { label: "Reskilling", path: "/reskilling", note: "Moving people into roles the organization needs filled." },
-    { label: "AI", path: "/ai", note: "What the AI layer drafts, and where a person signs off." },
   ],
   rel,
 );

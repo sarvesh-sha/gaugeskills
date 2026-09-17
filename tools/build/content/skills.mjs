@@ -436,11 +436,11 @@ const s10 = ctaBand({
 const s11 = relatedLinks(
   [
     { label: "Skill-gap analysis", path: "/skills-gap-analysis", note: "The method in detail, for a person, a cohort and a workforce." },
+    { label: "Competency management", path: "/competency-management", note: "Describing behaviour in context, where a discrete skill is not enough." },
     { label: "Employee skill assessment", path: "/employee-skill-assessment", note: "Measuring skills against a role standard rather than a syllabus." },
+    { label: "Learning paths", path: "/learning-paths", note: "Turning a measured gap into the shortest route that closes it." },
     { label: "Upskilling", path: "/upskilling", note: "Deepening a skill the role already requires." },
     { label: "Reskilling", path: "/reskilling", note: "Building a capability somebody does not yet have." },
-    { label: "Enterprise", path: "/enterprise", note: "Skills inventory, role readiness and workforce planning." },
-    { label: "The platform", path: "/platform", note: "Where assessment, learning and analytics sit together." },
   ],
   rel,
 );

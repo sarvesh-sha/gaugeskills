@@ -247,7 +247,7 @@ const s9 = relatedLinks(
     { label: "For students", path: "/students", note: "The student view: tutor, practice and a skill profile." },
     { label: "For faculty", path: "/faculty", note: "What changes in a faculty member's week, and what does not." },
     { label: "For leadership", path: "/leadership", note: "Academic analytics across departments, programmes and semesters." },
-    { label: "Skills", path: "/skills", note: "How a skill is measured against a level rather than self-reported." },
+    { label: "Learning paths", path: "/learning-paths", note: "Remediation scoped to the concepts a cohort failed together." },
   ],
   rel,
 );

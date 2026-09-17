@@ -418,8 +418,8 @@ const s13 = relatedLinks(
   [
     { label: "AI tutor", path: "/ai-tutor", note: "How the tutor teaches, and what it refuses to do." },
     { label: "AI for faculty", path: "/ai-for-faculty", note: "The co-pilot built around courses, sections and semester pacing." },
+    { label: "AI quiz generator", path: "/ai-quiz-generator", note: "Blueprints, item quality and the review step before publishing." },
     { label: "The platform", path: "/platform", note: "The layer the AI reads from and writes back to." },
-    { label: "Skills", path: "/skills", note: "Where a measured skill level comes from." },
     { label: "Higher Education", path: "/higher-education", note: "AI for colleges: faculty workload, at-risk students, placement readiness." },
     { label: "Enterprise", path: "/enterprise", note: "AI for workforce skills, gap analysis and reskilling paths." },
   ],

@@ -1,11 +1,11 @@
 /**
  * Topic landing pages.
  *
- * Eight pages that each own one search intent and refuse to borrow another
- * one's argument: the tutor page is about explanation, the assessment page is
- * about establishing a level, the gap page is about the arithmetic between
- * them, and upskilling and reskilling are separated by whether the person
- * stays in their role or leaves it.
+ * Each page owns one search intent and refuses to borrow another one's
+ * argument: the tutor page is about explanation, the assessment page is about
+ * establishing a level, the gap page is about the arithmetic between them, and
+ * upskilling and reskilling are separated by whether the person stays in their
+ * role or leaves it.
  *
  * They share a skeleton — hero, breadcrumb bar, a plain definition, a grid,
  * one differentiated block, FAQ, CTA, related links — so the skeleton is
@@ -36,6 +36,7 @@ const AI = { name: "AI", path: "/ai" };
 const HIGHER_ED = { name: "Higher Education", path: "/higher-education" };
 const ENTERPRISE = { name: "Enterprise", path: "/enterprise" };
 const SKILLS = { name: "Skills", path: "/skills" };
+const PLATFORM = { name: "Platform", path: "/platform" };
 
 /** One shared social card. These pages are a set and should read as one. */
 const OG_IMAGE = "og/topic.png";
@@ -285,6 +286,7 @@ const aiTutor = topicPage({
   },
   links: [
     { label: "AI", path: "/ai", note: "The AI layer underneath the tutor, the assistant and the analytics." },
+    { label: "Learning paths", path: "/learning-paths", note: "The route the tutor sits inside when a learner is working through a gap." },
     { label: "Schools", path: "/schools", note: "The tutor in a school day, alongside teacher and parent views." },
     { label: "Higher Education", path: "/higher-education", note: "The same tutor at course and competency level for colleges." },
     { label: "For students", path: "/students", note: "What a learner actually sees when they log in." },
@@ -440,6 +442,8 @@ const aiForFaculty = topicPage({
   },
   links: [
     { label: "For faculty", path: "/faculty", note: "The full faculty view: content studio, exams, attendance and pacing." },
+    { label: "AI quiz generator", path: "/ai-quiz-generator", note: "Blueprints, item quality and the review step, in detail." },
+    { label: "Learning paths", path: "/learning-paths", note: "What the platform builds for the students a result flags." },
     { label: "Higher Education", path: "/higher-education", note: "How the platform fits a college or university." },
     { label: "AI", path: "/ai", note: "What the AI drafts, and where a person signs off." },
     { label: "The platform", path: "/platform", note: "The assessment, learning and analytics layer underneath." },
@@ -582,6 +586,7 @@ const studentPerformanceAnalytics = topicPage({
   links: [
     { label: "Higher Education", path: "/higher-education", note: "The full picture for colleges and universities." },
     { label: "At-risk students", path: "/at-risk-students", note: "Turning these signals into an early flag and an intervention." },
+    { label: "AI quiz generator", path: "/ai-quiz-generator", note: "The concept tagging that makes a result readable in the first place." },
     { label: "AI", path: "/ai", note: "Asking the data a question in plain language." },
     { label: "For leadership", path: "/leadership", note: "Coverage, faculty workload and institution-wide trend." },
   ],
@@ -704,6 +709,7 @@ const atRiskStudents = topicPage({
   links: [
     { label: "Higher Education", path: "/higher-education", note: "How the platform fits a college or university." },
     { label: "Student performance analytics", path: "/student-performance-analytics", note: "The dashboard and the metrics these flags are drawn from." },
+    { label: "Learning paths", path: "/learning-paths", note: "The remediation a confirmed flag turns into." },
     { label: "For leadership", path: "/leadership", note: "Programme-level trend, coverage and where support is working." },
     { label: "The platform", path: "/platform", note: "Assessment, learning and analytics in one system." },
   ],
@@ -886,8 +892,10 @@ const employeeSkillAssessment = topicPage({
   },
   links: [
     { label: "Skills", path: "/skills", note: "How a skill is defined, measured and kept current." },
+    { label: "Competency management", path: "/competency-management", note: "The definitions and level criteria an assessment is placed against." },
     { label: "Enterprise", path: "/enterprise", note: "The full workforce picture: inventory, gaps and readiness." },
     { label: "Skills gap analysis", path: "/skills-gap-analysis", note: "What happens once a level exists and a role standard exists." },
+    { label: "Workforce analytics", path: "/workforce-analytics", note: "What a few hundred measured levels add up to." },
     { label: "The platform", path: "/platform", note: "Assessment, learning and analytics in one system." },
   ],
 });
@@ -1054,6 +1062,7 @@ const skillsGapAnalysis = topicPage({
     { label: "Upskilling", path: "/upskilling", note: "Closing a gap where the person stays in their role." },
     { label: "Reskilling", path: "/reskilling", note: "Closing the distance to a different role entirely." },
     { label: "Employee skill assessment", path: "/employee-skill-assessment", note: "How the measured level in the subtraction is established." },
+    { label: "Workforce analytics", path: "/workforce-analytics", note: "Reading a few hundred gaps as one capability picture." },
   ],
 });
 
@@ -1178,8 +1187,10 @@ const upskilling = topicPage({
   },
   links: [
     { label: "Skills gap analysis", path: "/skills-gap-analysis", note: "Where the gap that scopes a path comes from." },
+    { label: "Learning paths", path: "/learning-paths", note: "How the path itself is assembled, sequenced and adapted." },
     { label: "Enterprise", path: "/enterprise", note: "The full workforce view for HR, L&D and leadership." },
     { label: "Reskilling", path: "/reskilling", note: "When the answer is a different role rather than a deeper one." },
+    { label: "Workforce analytics", path: "/workforce-analytics", note: "Showing that the levels actually moved afterwards." },
     { label: "Skills", path: "/skills", note: "How levels, standards and evidence are modelled." },
   ],
 });
@@ -1320,9 +1331,765 @@ const reskilling = topicPage({
   },
   links: [
     { label: "Skills gap analysis", path: "/skills-gap-analysis", note: "The method behind both upskilling and reskilling decisions." },
+    { label: "Competency management", path: "/competency-management", note: "The shared definitions that make two role standards comparable." },
     { label: "Enterprise", path: "/enterprise", note: "Workforce inventory, role readiness and internal mobility." },
     { label: "Upskilling", path: "/upskilling", note: "The other answer to a gap: deeper in the same role." },
+    { label: "Workforce analytics", path: "/workforce-analytics", note: "Spotting the roles that are shrinking before they empty out." },
     { label: "Skills", path: "/skills", note: "How role standards and measured levels are modelled." },
+  ],
+});
+
+/* ------------------------------------------- 9. /competency-management */
+
+const competencyAside = `<div data-rise class="rounded-card border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">Competency record</p>
+        <h2 class="mt-4 text-[21px] font-semibold text-white">Client requirements workshop</h2>
+        <dl class="mt-5 space-y-4 text-[15px]">
+          <div class="flex items-baseline justify-between gap-4">
+            <dt class="text-mist">Owner</dt>
+            <dd class="font-semibold text-white">Head of Delivery</dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-4">
+            <dt class="text-mist">Levels defined</dt>
+            <dd class="font-semibold text-white">4 of 5, observably</dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-4">
+            <dt class="text-mist">Evidence accepted</dt>
+            <dd class="font-semibold text-white">Scenario, work product</dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-4">
+            <dt class="text-mist">Roles using it</dt>
+            <dd class="font-semibold text-white">3</dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-4">
+            <dt class="text-mist">Last reviewed</dt>
+            <dd class="font-semibold text-white">4 months ago</dd>
+          </div>
+        </dl>
+        <p class="mt-6 border-t border-white/10 pt-4 text-[12px] text-mist">${INTERFACE_NOTE}</p>
+      </div>`;
+
+const competencyManagement = topicPage({
+  out: "competency-management.html",
+  canonical: "/competency-management",
+  title: "Competency Management Software | GaugeSkills",
+  description:
+    "Define competencies once, give every level observable evidence and a named owner, and keep the framework current as roles change rather than refreshing a PDF.",
+  trail: [ENTERPRISE, { name: "Competency management", path: "/competency-management" }],
+  intro: {
+    eyebrow: "Competency management",
+    h1: "From Competency Framework to Everyday Decisions",
+    lede: "Most frameworks are commissioned once, delivered as a spreadsheet, and opened during appraisal season by the people who remember they exist. A competency model earns its keep when it is small enough to remember, specific enough to settle an argument, and wired into the decisions managers make every week.",
+    primaryLabel: "Talk to Our Enterprise Team",
+    secondary: { path: "/skills", label: "How skills are modelled" },
+  },
+  aside: competencyAside,
+  middle: (rel) => [
+    section({
+      tone: "white",
+      children: `    ${sectionHead({
+        eyebrow: "What this actually means",
+        title: "A competency is not a bigger skill",
+        lede: "The two words get used interchangeably and then a framework collapses under the confusion. They describe different things, they are measured differently, and a working model needs both.",
+      })}
+    <div class="mt-10 grid gap-5 sm:grid-cols-3">
+      <div data-reveal class="rounded-card border border-hairline p-6">
+        <p class="font-display text-[15px] font-semibold text-teal">A skill is a capability</p>
+        <p class="mt-2 text-[15px] leading-relaxed text-slate-body">Something a person can do: write a SQL query, run a payroll cycle, read a balance sheet. Narrow enough to assess directly, and it means the same thing in any organization.</p>
+      </div>
+      <div data-reveal style="--reveal-delay: 60ms" class="rounded-card border border-hairline p-6">
+        <p class="font-display text-[15px] font-semibold text-teal">A competency is behaviour in context</p>
+        <p class="mt-2 text-[15px] leading-relaxed text-slate-body">How a person applies skills, judgement and conduct to the work your organization actually does. It is yours, it is observable, and it usually needs more than one kind of evidence.</p>
+      </div>
+      <div data-reveal class="rounded-card border border-hairline p-6">
+        <p class="font-display text-[15px] font-semibold text-teal">A role standard is the bar</p>
+        <p class="mt-2 text-[15px] leading-relaxed text-slate-body">Which competencies a job requires and at what level. This is the thing a person gets compared against, and the thing most organizations never write down.</p>
+      </div>
+    </div>
+    <div data-reveal class="mt-10 rounded-card border border-hairline bg-paper p-7 md:p-9">
+      <p class="text-xs font-semibold uppercase tracking-[0.16em] text-teal">What every competency record carries</p>
+      <dl class="mt-6 grid gap-5 sm:grid-cols-2">
+        <div>
+          <dt class="text-[15px] font-semibold text-ink">A definition you could argue with</dt>
+          <dd class="mt-1 text-[15px] leading-relaxed text-slate-body">Written so two managers watching the same person would reach the same conclusion. If it cannot be disputed, it cannot be evidenced either.</dd>
+        </div>
+        <div>
+          <dt class="text-[15px] font-semibold text-ink">Levels that discriminate</dt>
+          <dd class="mt-1 text-[15px] leading-relaxed text-slate-body">Each level describes different observable behaviour, not the same behaviour with adverbs attached. Three good levels beat five that blur into each other.</dd>
+        </div>
+        <div>
+          <dt class="text-[15px] font-semibold text-ink">The evidence it accepts</dt>
+          <dd class="mt-1 text-[15px] leading-relaxed text-slate-body">Assessment, work product, structured scenario or manager validation. Declared up front, so nobody has to invent a standard of proof under time pressure.</dd>
+        </div>
+        <div>
+          <dt class="text-[15px] font-semibold text-ink">A named owner</dt>
+          <dd class="mt-1 text-[15px] leading-relaxed text-slate-body">A person, not a function. Competencies owned by the business stay current; competencies owned by nobody become archaeology within two years.</dd>
+        </div>
+        <div>
+          <dt class="text-[15px] font-semibold text-ink">A review date</dt>
+          <dd class="mt-1 text-[15px] leading-relaxed text-slate-body">Work changes and definitions rot quietly. A record that has passed its review date is flagged as stale rather than presented as current.</dd>
+        </div>
+        <div>
+          <dt class="text-[15px] font-semibold text-ink">The roles that use it</dt>
+          <dd class="mt-1 text-[15px] leading-relaxed text-slate-body">Visible from the record itself, so the cost of changing a definition is obvious before somebody changes it.</dd>
+        </div>
+      </dl>
+    </div>`,
+    }),
+    section({
+      tone: "paper",
+      children: `    ${sectionHead({
+        eyebrow: "What it is for",
+        title: "The decisions a framework is supposed to settle",
+        lede: "A competency model is not an inventory exercise. It is shared vocabulary that lets several different decisions get made consistently by people who are not in the same room.",
+      })}
+    ${benefitGrid([
+      {
+        benefit: "Two managers describe the same job the same way.",
+        body: "Role standards are defined from a shared library rather than rewritten in each job description, so the bar for a role does not move depending on who is hiring for it.",
+        feature: "Shared role standards",
+      },
+      {
+        benefit: "Know what a promotion actually requires.",
+        body: "The difference between two levels is written down in observable terms, so the answer to what would get me promoted is a document rather than a manager's mood.",
+        feature: "Transparent level criteria",
+      },
+      {
+        benefit: "Stop interviewing for the same thing five different ways.",
+        body: "Hiring panels work from the same competency definitions the role standard uses, which makes scorecards comparable and post-interview debriefs shorter.",
+        feature: "Consistent evaluation",
+      },
+      {
+        benefit: "Find the internal candidate before posting externally.",
+        body: "When people are measured against a common set of competencies, matching a person to an open role is a query rather than a memory test.",
+        feature: "Internal mobility",
+      },
+      {
+        benefit: "Aim development at a defined level, not a vague ambition.",
+        body: "A development plan built against level criteria has a finish line and a way to check whether it was crossed, which is the difference between a plan and an intention.",
+        feature: "Development planning",
+      },
+      {
+        benefit: "Retire the definitions that no longer describe the work.",
+        body: "Usage is visible per competency, so the ones nothing references can be archived deliberately instead of accumulating until somebody commissions a replacement framework.",
+        feature: "Framework hygiene",
+      },
+    ])}`,
+    }),
+    section({
+      tone: "ink",
+      children: `    <div class="grid items-start gap-12 lg:grid-cols-[1fr_1fr]">
+      <div>
+        ${sectionHead({
+          eyebrow: "The hard part",
+          title: "Governance, not authoring",
+          lede: "Writing the first version of a framework takes a quarter. Keeping it true takes forever, and that is the part no spreadsheet helps with. The platform treats a competency as a record with an owner and a lifecycle rather than a row in a document.",
+          tone: "dark",
+        })}
+        <ol class="mt-8 space-y-4">
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span class="text-[15px] leading-relaxed text-mist"><span class="font-semibold text-white">Propose.</span> Anyone can raise a competency the work needs. It arrives as a draft, not as policy.</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span class="text-[15px] leading-relaxed text-mist"><span class="font-semibold text-white">Define.</span> The owner writes the levels and declares what evidence counts. Until both exist, it cannot be attached to a role.</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span class="text-[15px] leading-relaxed text-mist"><span class="font-semibold text-white">Pilot.</span> Used on one team first. Definitions that two assessors read differently surface here, cheaply.</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span class="text-[15px] leading-relaxed text-mist"><span class="font-semibold text-white">Publish.</span> It becomes available to role standards, assessments and development plans across the organization.</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span class="text-[15px] leading-relaxed text-mist"><span class="font-semibold text-white">Observe.</span> Usage, assessment spread and disagreement between assessors are visible to the owner as evidence the definition is working.</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span class="text-[15px] leading-relaxed text-mist"><span class="font-semibold text-white">Revise or retire.</span> Changes are versioned, so an assessment made last year still says which definition it was made against.</span></li>
+        </ol>
+        <div class="mt-9">
+          <a href="${rel("/blog/competency-management-that-people-use")}" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-6 py-3 text-[15px] font-semibold text-white transition-all duration-200 ease-out hover:border-cyan hover:text-cyan">Why most frameworks fail</a>
+        </div>
+      </div>
+      <div data-reveal class="rounded-card border border-white/10 bg-white/5 p-7">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">Four ways a framework dies</p>
+        <dl class="mt-6 space-y-5">
+          <div>
+            <dt class="text-[15px] font-semibold text-white">It was too big to learn</dt>
+            <dd class="mt-1.5 text-[15px] leading-relaxed text-mist">Several hundred competencies is a reference work. Managers use what they can hold in their head, which in practice is a handful per role.</dd>
+          </div>
+          <div>
+            <dt class="text-[15px] font-semibold text-white">The wording could mean anything</dt>
+            <dd class="mt-1.5 text-[15px] leading-relaxed text-mist">Advanced stakeholder management means whatever the reader wants. A definition that cannot be disputed cannot be evidenced either.</dd>
+          </div>
+          <div>
+            <dt class="text-[15px] font-semibold text-white">Nobody owned it</dt>
+            <dd class="mt-1.5 text-[15px] leading-relaxed text-mist">A framework owned by a project that ended is a framework that stopped tracking the work the day the project closed.</dd>
+          </div>
+          <div>
+            <dt class="text-[15px] font-semibold text-white">It only touched appraisals</dt>
+            <dd class="mt-1.5 text-[15px] leading-relaxed text-mist">Vocabulary used once a year is vocabulary nobody learns. It has to appear in hiring, development and staffing decisions to stay alive.</dd>
+          </div>
+        </dl>
+      </div>
+    </div>`,
+    }),
+  ],
+  faqTitle: "What HR leaders ask before rebuilding a framework",
+  faqs: [
+    {
+      q: "What is the difference between a skill and a competency here?",
+      a: "A skill is a discrete capability that can be assessed on its own and means roughly the same thing anywhere. A competency describes how skills, judgement and conduct combine in your organization's context, which makes it specific to you and usually harder to evidence. The platform models both, because role standards need skills for precision and competencies for the parts of a job that no test captures.",
+    },
+    {
+      q: "We already have a framework in a spreadsheet. Do we start over?",
+      a: "No, and starting over is usually the wrong instinct. Import what exists, then work through it by usage: the competencies actually referenced by roles get an owner, observable level definitions and a review date, and the rest sit in an archive until something claims them. Most organizations find that a third of the framework is doing all the work.",
+    },
+    {
+      q: "How many competencies should a role have?",
+      a: "Fewer than feels responsible. A role standard that lists twenty competencies will be read once and never used to make a decision. Somewhere between five and eight, each one genuinely load-bearing for the job, produces a standard managers can hold in their head and apply consistently, which is the only kind that changes anything.",
+    },
+    {
+      q: "Who should own a competency?",
+      a: "Someone in the business who does the work, not HR. HR owns the method, the levels scale and the governance cadence; the person who runs delivery owns what good delivery looks like. Frameworks owned entirely by a central function drift from the work because the people who notice the drift have no way to change the record.",
+    },
+  ],
+  close: {
+    title: "Bring the framework you already have",
+    lede: "Send us the spreadsheet. We will show you which competencies are actually referenced, what it would take to make them evidence-based, and what the first role standard would look like.",
+    primaryLabel: "Talk to Our Enterprise Team",
+    secondary: { path: "/skills-gap-analysis", label: "See how a standard becomes a gap" },
+  },
+  links: [
+    { label: "Skills", path: "/skills", note: "How skills, levels and evidence are modelled underneath." },
+    { label: "Enterprise", path: "/enterprise", note: "The full workforce view for HR, L&D and leadership." },
+    { label: "Employee skill assessment", path: "/employee-skill-assessment", note: "Establishing a level against a definition, from evidence." },
+    { label: "Skills gap analysis", path: "/skills-gap-analysis", note: "What a role standard is for once people are measured against it." },
+    { label: "Workforce analytics", path: "/workforce-analytics", note: "What the framework lets you report once it is in use." },
+    { label: "Reskilling", path: "/reskilling", note: "Using shared definitions to find the roles a person is closest to." },
+  ],
+});
+
+/* -------------------------------------------------- 10. /learning-paths */
+
+const pathAside = `<div data-rise class="rounded-card border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">Path — Data modelling, Level 2 to Level 3</p>
+        <ol class="mt-5 space-y-3">
+          <li class="flex items-start gap-3 rounded-xl bg-ink/60 p-4">
+            <span aria-hidden="true" class="mt-0.5 text-[13px] font-bold text-mist">01</span>
+            <div>
+              <p class="text-[15px] font-medium text-mist line-through">Relational basics</p>
+              <p class="mt-0.5 text-[13px] text-mist">Skipped — already demonstrated at Level 3</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3 rounded-xl border border-cyan/25 bg-cyan/10 p-4">
+            <span aria-hidden="true" class="mt-0.5 text-[13px] font-bold text-cyan">02</span>
+            <div>
+              <p class="text-[15px] font-medium text-white">Normalisation in practice</p>
+              <p class="mt-0.5 text-[13px] text-cyan">In progress — second attempt at the applied task</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3 rounded-xl bg-ink/60 p-4">
+            <span aria-hidden="true" class="mt-0.5 text-[13px] font-bold text-mist">03</span>
+            <div>
+              <p class="text-[15px] font-medium text-white">Added after two failed attempts</p>
+              <p class="mt-0.5 text-[13px] text-mist">Remediation on functional dependencies</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3 rounded-xl bg-ink/60 p-4">
+            <span aria-hidden="true" class="mt-0.5 text-[13px] font-bold text-mist">04</span>
+            <div>
+              <p class="text-[15px] font-medium text-white">Re-assessment</p>
+              <p class="mt-0.5 text-[13px] text-mist">Locked until the applied task is passed</p>
+            </div>
+          </li>
+        </ol>
+        <p class="mt-5 text-[12px] text-mist">${INTERFACE_NOTE}</p>
+      </div>`;
+
+const learningPaths = topicPage({
+  out: "learning-paths.html",
+  canonical: "/learning-paths",
+  title: "Personalized Learning Paths | GaugeSkills",
+  description:
+    "Learning paths assembled from a measured gap: prerequisites first, your existing content where it fits, remediation when practice fails, and a re-assessment at the end.",
+  trail: [PLATFORM, { name: "Learning paths", path: "/learning-paths" }],
+  intro: {
+    eyebrow: "Learning paths",
+    h1: "Paths Built From What Someone Is Actually Missing",
+    lede: "A course is the same for everyone who enrols in it. A path is the shortest honest route between what a person can demonstrate today and what their class, course or role requires — which means it cannot be written until somebody has been measured.",
+    primaryLabel: "Book a Demo",
+    secondary: { path: "/platform", label: "See the platform" },
+  },
+  aside: pathAside,
+  middle: (rel) => [
+    section({
+      tone: "white",
+      children: `    ${sectionHead({
+        eyebrow: "What this actually means",
+        title: "Personalized is a claim. Scoped by evidence is a mechanism.",
+        lede: "Almost every learning product now says personalized, and most of them mean the learner picked a topic from a menu. A path is personalized in a narrower and more useful sense: its contents were determined by what a specific person got wrong.",
+      })}
+    <div class="mt-10 grid gap-5 sm:grid-cols-3">
+      <div data-reveal class="rounded-card border border-hairline p-6">
+        <p class="font-display text-[15px] font-semibold text-teal">Scoped by evidence</p>
+        <p class="mt-2 text-[15px] leading-relaxed text-slate-body">Modules covering concepts the learner already demonstrated are dropped before the path is issued. What remains is the gap, which is usually a fraction of the course it came from.</p>
+      </div>
+      <div data-reveal style="--reveal-delay: 60ms" class="rounded-card border border-hairline p-6">
+        <p class="font-display text-[15px] font-semibold text-teal">Ordered by prerequisite</p>
+        <p class="mt-2 text-[15px] leading-relaxed text-slate-body">Concepts have dependencies. A learner failing the current unit is often missing something two units back, so the path starts where the reasoning first broke rather than where the syllabus says.</p>
+      </div>
+      <div data-reveal class="rounded-card border border-hairline p-6">
+        <p class="font-display text-[15px] font-semibold text-teal">Changed by what happens</p>
+        <p class="mt-2 text-[15px] leading-relaxed text-slate-body">A path is not fixed at assignment. Practice results extend it, shorten it, or insert remediation, so it reflects the learner in week four rather than the learner in week one.</p>
+      </div>
+    </div>
+    <div data-reveal class="mt-10 rounded-card border border-hairline bg-paper p-7 md:p-9">
+      <p class="text-xs font-semibold uppercase tracking-[0.16em] text-teal">How a path is assembled</p>
+      <ol class="mt-6 grid gap-5 sm:grid-cols-2">
+        <li>
+          <p class="text-[15px] font-semibold text-ink">1. Establish the target</p>
+          <p class="mt-1 text-[15px] leading-relaxed text-slate-body">The syllabus for a class, the outcomes for a course, or the standard for a role. Without a defined destination there is nothing to compute a route to.</p>
+        </li>
+        <li>
+          <p class="text-[15px] font-semibold text-ink">2. Measure the starting point</p>
+          <p class="mt-1 text-[15px] leading-relaxed text-slate-body">Assessment establishes where the learner currently stands, concept by concept, rather than asking them what they think they need.</p>
+        </li>
+        <li>
+          <p class="text-[15px] font-semibold text-ink">3. Subtract, then sequence</p>
+          <p class="mt-1 text-[15px] leading-relaxed text-slate-body">The difference becomes the scope; the prerequisite graph turns that scope into an order. Foundations that are missing move to the front even if they belong to an earlier unit.</p>
+        </li>
+        <li>
+          <p class="text-[15px] font-semibold text-ink">4. Fill it with the best content available</p>
+          <p class="mt-1 text-[15px] leading-relaxed text-slate-body">Your own material first, then your licensed library, then generated content where nothing covers the concept. Provenance is visible on every item.</p>
+        </li>
+        <li>
+          <p class="text-[15px] font-semibold text-ink">5. Adapt on evidence, not on clicks</p>
+          <p class="mt-1 text-[15px] leading-relaxed text-slate-body">Practice results drive the changes. Two failed attempts on the same concept insert remediation; a clean pass collapses the rest of that branch.</p>
+        </li>
+        <li>
+          <p class="text-[15px] font-semibold text-ink">6. Close with a measurement</p>
+          <p class="mt-1 text-[15px] leading-relaxed text-slate-body">The path ends in a re-assessment of the concepts it targeted. Finishing the content is not the outcome; moving the level is.</p>
+        </li>
+      </ol>
+    </div>`,
+    }),
+    section({
+      tone: "paper",
+      children: `    ${sectionHead({
+        eyebrow: "What changes",
+        title: "Shorter routes finish more often",
+      })}
+    ${benefitGrid([
+      {
+        benefit: "Nobody sits through a module on something they can already do.",
+        body: "Skipping demonstrated concepts typically removes a large part of a course. The learning that remains is the learning that was needed, and it fits in the time people actually have.",
+        feature: "Gap-scoped content",
+      },
+      {
+        benefit: "Fix the foundation instead of repeating the current chapter.",
+        body: "When the prerequisite graph finds a missing concept two units back, the path goes there first, which is why the third explanation of the current topic finally lands.",
+        feature: "Prerequisite sequencing",
+      },
+      {
+        benefit: "Help arrives at the exact point someone gets stuck.",
+        body: "The AI tutor sits inside the path and explains the step that broke, using the institution's own material. It supports the learner between sessions rather than replacing the teacher or coach.",
+        feature: "In-path AI tutor",
+      },
+      {
+        benefit: "Teachers and managers see where a path stalled, and why.",
+        body: "A path that has not moved in two weeks is visible as a stalled commitment against a named person, which is a different thing from a low completion percentage in a report.",
+        feature: "Progress visibility",
+      },
+      {
+        benefit: "Get more out of the content you already licensed.",
+        body: "Paths are assembled from your existing library and internal material. The value added is the targeting and the measurement around the content, not another catalogue.",
+        feature: "Bring your own content",
+      },
+      {
+        benefit: "End with proof rather than a completion tick.",
+        body: "The closing re-assessment produces a second measurement on the same concepts, so the report says which levels moved instead of how many people finished.",
+        feature: "Closing re-assessment",
+      },
+    ])}`,
+    }),
+    section({
+      tone: "ink",
+      children: `    ${sectionHead({
+        eyebrow: "Three audiences",
+        title: "The same mechanism, three vocabularies",
+        lede: "A path is computed the same way everywhere: target, measurement, subtraction, sequence, adapt, re-measure. What changes is what the target is made of and what the learner sees, because a Class 8 student and a mid-career engineer are not doing the same thing.",
+        tone: "dark",
+      })}
+    <div class="mt-12 grid gap-5 lg:grid-cols-3">
+      <div data-reveal class="rounded-card border border-white/10 bg-white/5 p-7">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">Schools</p>
+        <h3 class="mt-3 text-[17px] font-semibold text-white">Against the class syllabus</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-mist">The target is the concepts in the subject for that class. Paths are short, run alongside the timetable, and are mostly remediation: the topic from last term that never got solid and is now blocking this one.</p>
+        <a href="${rel("/schools")}" class="mt-5 inline-flex text-[15px] font-semibold text-cyan underline-offset-4 hover:underline">GaugeSkills for Schools</a>
+      </div>
+      <div data-reveal style="--reveal-delay: 60ms" class="rounded-card border border-white/10 bg-white/5 p-7">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">Higher Education</p>
+        <h3 class="mt-3 text-[17px] font-semibold text-white">Against course outcomes</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-mist">The target is the outcomes a course declares, plus the competencies a placement team cares about. Paths run across a semester and often serve a group of students who failed the same concept together.</p>
+        <a href="${rel("/higher-education")}" class="mt-5 inline-flex text-[15px] font-semibold text-cyan underline-offset-4 hover:underline">GaugeSkills for Higher Education</a>
+      </div>
+      <div data-reveal class="rounded-card border border-white/10 bg-white/5 p-7">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">Enterprise</p>
+        <h3 class="mt-3 text-[17px] font-semibold text-white">Against a role standard</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-mist">The target is the skills and levels a role requires. Paths are scoped to the measured gap, negotiated with the person before they start, and closed by a re-assessment that decides whether the level moved.</p>
+        <a href="${rel("/enterprise")}" class="mt-5 inline-flex text-[15px] font-semibold text-cyan underline-offset-4 hover:underline">GaugeSkills for Enterprise</a>
+      </div>
+    </div>
+    <p data-reveal class="mt-9 max-w-3xl text-[15px] leading-relaxed text-mist">
+      One engine, three targets. That is the whole argument for running schools, colleges and workforce development on the same platform rather than three products that share a logo.
+      <a href="${rel("/platform")}" class="font-semibold text-cyan underline-offset-4 hover:underline">See the platform underneath</a>.
+    </p>`,
+    }),
+  ],
+  faqTitle: "What people ask about paths",
+  faqs: [
+    {
+      q: "Is a learning path just a playlist of courses?",
+      a: "A playlist is a fixed list somebody curated in advance. A path is computed for one learner from a measurement, ordered by prerequisites rather than by catalogue structure, and changed by what happens during it. The practical difference shows up in length: a curated playlist covers a subject, a path covers a gap, and the gap is usually much smaller.",
+    },
+    {
+      q: "Do we have to use your content?",
+      a: "No. Paths are assembled from whatever you have — your own material, an existing licensed library, or content generated where nothing covers a concept. Every item shows where it came from. What the platform contributes is the targeting, the sequencing and the measurement, which is the part a content library does not do.",
+    },
+    {
+      q: "What happens when a learner gets stuck halfway through?",
+      a: "Two failed attempts on the same concept insert remediation ahead of the next module rather than letting the learner continue and fail again. The AI tutor is available at that point to explain the step differently. If the pattern repeats, the path is flagged to the teacher, faculty member or manager responsible, because at that point it is a teaching problem rather than a content problem.",
+    },
+    {
+      q: "Can a teacher or manager change the path?",
+      a: "Yes, and they should be able to. A computed path is a strong starting point built from evidence, but it does not know that a student has been unwell or that a role is changing next quarter. Modules can be added, removed or reordered, and the change is attributed so the reasoning survives the person who made it.",
+    },
+  ],
+  close: {
+    title: "See a path built from a real gap",
+    lede: "Bring a syllabus, a course outline or a role standard. We will measure against it and show you the path that comes out the other side, including everything it decided to skip.",
+    primaryLabel: "Book a Demo",
+    secondary: { path: "/skills", label: "How the measurement works" },
+  },
+  links: [
+    { label: "The platform", path: "/platform", note: "Where assessment, learning and analytics sit together." },
+    { label: "AI tutor", path: "/ai-tutor", note: "The explanation that sits inside a path when someone is stuck." },
+    { label: "Skills", path: "/skills", note: "How the measurement that scopes a path is established." },
+    { label: "Upskilling", path: "/upskilling", note: "Paths pointed at a gap in the role a person already holds." },
+    { label: "Schools", path: "/schools", note: "Paths against a class syllabus, alongside the timetable." },
+    { label: "Higher Education", path: "/higher-education", note: "Paths against course outcomes and placement competencies." },
+  ],
+});
+
+/* ---------------------------------------------- 11. /workforce-analytics */
+
+const workforceAside = `<div data-rise>
+        ${dashboardMock({
+          title: "Workforce capability — Engineering, 312 people",
+          stats: [
+            { label: "Roles covered", value: "9" },
+            { label: "Critical gaps", value: "4" },
+            { label: "Role ready", value: "61%" },
+          ],
+          bars: [
+            { label: "Cloud infrastructure", value: "Concentrated in 3 people", pct: 24 },
+            { label: "Automated testing", value: "Improving, 2 quarters", pct: 57 },
+            { label: "Code review", value: "Meets requirement", pct: 88 },
+          ],
+          note: DASHBOARD_NOTE,
+        })}
+      </div>`;
+
+const workforceAnalytics = topicPage({
+  out: "workforce-analytics.html",
+  canonical: "/workforce-analytics",
+  title: "Workforce Skills Analytics for HR and L&D | GaugeSkills",
+  description:
+    "Workforce analytics built on measured skills, not course completions: a live capability inventory, role readiness by team, and whether the learning spend moved anything.",
+  trail: [ENTERPRISE, { name: "Workforce analytics", path: "/workforce-analytics" }],
+  intro: {
+    eyebrow: "Workforce analytics",
+    h1: "Report on Capability, Not Course Completions",
+    lede: "Most learning dashboards measure activity: enrolments, hours consumed, completion percentages. None of them answer the question a board actually asks, which is whether this organization can do things next year that it cannot do today.",
+    primaryLabel: "Talk to Our Enterprise Team",
+    secondary: { path: "/enterprise", label: "Enterprise overview" },
+  },
+  aside: workforceAside,
+  middle: (rel) => [
+    section({
+      tone: "white",
+      children: `    ${sectionHead({
+        eyebrow: "What this actually means",
+        title: "Four questions, and activity data answers none of them",
+        lede: "Completion rates are easy to collect, which is why they dominate learning reporting, and they describe effort rather than capability. These are the questions a workforce dashboard has to be able to answer instead.",
+      })}
+    ${cardGrid(
+      [
+        {
+          tag: "Question 01",
+          title: "What can this organization actually do?",
+          body: "A live inventory of measured skills and levels across the workforce, rather than a headcount by job title and an assumption that the title implies the capability.",
+        },
+        {
+          tag: "Question 02",
+          title: "Where is that capability concentrated?",
+          body: "How many people hold a critical skill at the required level. A capability held by three people in a company of three hundred is a dependency, and it does not show up on any completion report.",
+        },
+        {
+          tag: "Question 03",
+          title: "Are we ready for next year's plan?",
+          body: "Role readiness measured against the standards the plan requires rather than the standards the current work requires, so a capability shortfall surfaces while there is still time to hire or build.",
+        },
+        {
+          tag: "Question 04",
+          title: "Did the learning spend change anything?",
+          body: "Levels re-measured after development, compared against where they started. This is the only one of the four that needs two measurements, and it is the one most often skipped.",
+        },
+      ],
+      { columns: 2 },
+    )}`,
+    }),
+    section({
+      tone: "ink",
+      children: `    ${sectionHead({
+        eyebrow: "The metrics",
+        title: "What each number is made of",
+        lede: "A metric nobody can define is a metric nobody defends in a leadership meeting. These four carry most of the weight, and each one is computed from assessment evidence rather than from activity.",
+        tone: "dark",
+      })}
+    <div class="mt-12 grid gap-5 lg:grid-cols-2">
+      <div data-reveal class="rounded-card border border-white/10 bg-white/5 p-7">
+        <h3 class="text-[17px] font-semibold text-white">Capability coverage</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-mist">For a given skill, how many people hold it at or above a stated level. Reported with the population attached, because eight people out of twelve and eight out of four hundred are different organizations.</p>
+      </div>
+      <div data-reveal style="--reveal-delay: 60ms" class="rounded-card border border-white/10 bg-white/5 p-7">
+        <h3 class="text-[17px] font-semibold text-white">Role readiness</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-mist">The share of a role's required skills that a person meets at level. Aggregated to a team, it says how much of the role standard the team collectively satisfies, which is a more useful planning number than an average.</p>
+      </div>
+      <div data-reveal class="rounded-card border border-white/10 bg-white/5 p-7">
+        <h3 class="text-[17px] font-semibold text-white">Concentration</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-mist">How few people a critical capability depends on. This is the metric that turns a skills inventory into a risk register, and it is invisible to any report built on averages.</p>
+      </div>
+      <div data-reveal style="--reveal-delay: 60ms" class="rounded-card border border-white/10 bg-white/5 p-7">
+        <h3 class="text-[17px] font-semibold text-white">Movement</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-mist">The change in measured level on the same skill between two points in time. Without it, an inventory is a photograph; with it, the learning investment has something to be judged against.</p>
+      </div>
+    </div>
+    <p data-reveal class="mt-9 max-w-3xl text-[15px] leading-relaxed text-mist">
+      What these numbers are not is a productivity monitor. They describe capability against defined standards; they do not track activity, time at a desk, or anything resembling individual surveillance, and there is no composite employee score.
+      <a href="${rel("/security")}" class="font-semibold text-cyan underline-offset-4 hover:underline">How access and data scope work</a>.
+    </p>`,
+    }),
+    section({
+      tone: "paper",
+      children: `    ${sectionHead({
+        eyebrow: "The views",
+        title: "The same data, cut for the decision being made",
+        lede: "A CHRO planning next year and a team lead preparing a one-to-one need different answers from one set of records. Each role sees the cut that matches what they are accountable for, and nothing beyond it.",
+      })}
+    ${cardGrid(
+      [
+        { tag: "CHRO", title: "Across the organization", body: "Capability coverage and readiness by function, with the concentration risks and the gaps that the coming year's plan depends on." },
+        { tag: "L&D", title: "Programme effect", body: "Before-and-after levels for the skills a programme targeted, so the review is about movement rather than attendance and satisfaction scores." },
+        { tag: "Manager", title: "My team", body: "Where each person stands against their role standard, what is in progress, and which gap is worth the next development conversation." },
+        { tag: "Business leader", title: "Can we staff this?", body: "Readiness for a specific initiative measured against the roles it needs, rather than an assurance that the training budget was spent." },
+        { tag: "Talent acquisition", title: "Build or buy", body: "Which gaps are close enough to close internally and which need hiring, based on the size and spread of the gap instead of instinct." },
+        { tag: "Employee", title: "Where I stand", body: "Their own measured profile, what the next level would require, and which internal roles their current skills are closest to." },
+      ],
+      { columns: 3 },
+    )}
+    <p data-reveal class="mt-8 max-w-3xl text-[15px] leading-relaxed text-slate-body">
+      Every one of these views is computed from the same measured levels, which is what stops two departments arriving at a meeting with two different numbers.
+      <a href="${rel("/skills-gap-analysis")}" class="font-semibold text-teal underline-offset-4 hover:underline">See how a gap is calculated</a>.
+    </p>`,
+    }),
+  ],
+  faqTitle: "What HR and L&amp;D teams ask",
+  faqs: [
+    {
+      q: "How is this different from the reports our HRMS or LMS already produces?",
+      a: "An HRMS reports on people and positions; an LMS reports on activity and completions. Both are accurate about what they measure, and neither measures capability. This layer sits on assessment evidence, so its unit is a skill at a level rather than a course someone finished, and that is what makes readiness and movement computable.",
+    },
+    {
+      q: "Can managers see individual employees' skill levels?",
+      a: "A manager sees the measured levels of the people who report to them, against the standards for their roles. They do not see other teams, and there is no organization-wide ranking of individuals. Aggregate views above team level are reported as populations rather than named lists, because the decisions at that level are about capability, not about people.",
+    },
+    {
+      q: "We have not measured anyone's skills yet. Where does the data come from?",
+      a: "From assessment, over time, and it is worth being honest that this is the real cost of the approach. Most organizations start with one job family, define its role standards, measure that population, and have a usable dashboard for it within a quarter. An inventory built by asking everyone to rate themselves can be assembled in a fortnight and is not worth reporting on.",
+    },
+    {
+      q: "Can we prove return on investment for learning with this?",
+      a: "You can prove that measured capability changed, which is a stronger claim than most learning functions can make and a weaker one than attributing a business result to a training programme. Movement on a targeted skill, measured before and after, is defensible. Connecting that to revenue involves assumptions the platform cannot make for you, and we would rather say so.",
+    },
+  ],
+  close: {
+    title: "Start with one function and one set of roles",
+    lede: "Pick the part of the organization where a capability question is currently being answered by opinion. We will show you what measuring it involves and what the dashboard would say at the end of a quarter.",
+    primaryLabel: "Talk to Our Enterprise Team",
+    secondary: { path: "/employee-skill-assessment", label: "How levels are established" },
+  },
+  links: [
+    { label: "Enterprise", path: "/enterprise", note: "The full workforce picture: inventory, gaps and readiness." },
+    { label: "Skills gap analysis", path: "/skills-gap-analysis", note: "The subtraction these dashboards are built on." },
+    { label: "Employee skill assessment", path: "/employee-skill-assessment", note: "Where a measured level comes from in the first place." },
+    { label: "Competency management", path: "/competency-management", note: "The definitions that make numbers comparable across teams." },
+    { label: "Upskilling", path: "/upskilling", note: "What happens after a gap shows up on the dashboard." },
+    { label: "Security", path: "/security", note: "Tenancy, role-based access and what each role can see." },
+  ],
+});
+
+/* ---------------------------------------------- 12. /ai-quiz-generator */
+
+const quizAside = `<div data-rise class="rounded-card border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">Generated item — awaiting review</p>
+        <div class="mt-5 rounded-xl bg-ink/60 p-4">
+          <p class="text-[15px] leading-relaxed text-white">A table is in second normal form but not third. Which dependency must be present?</p>
+        </div>
+        <dl class="mt-4 space-y-3 text-[14px]">
+          <div class="flex items-baseline justify-between gap-4">
+            <dt class="text-mist">Concept</dt>
+            <dd class="font-semibold text-white">Functional dependency</dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-4">
+            <dt class="text-mist">Difficulty</dt>
+            <dd class="font-semibold text-white">Moderate</dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-4">
+            <dt class="text-mist">Distractors</dt>
+            <dd class="font-semibold text-white">3, each a named error</dd>
+          </div>
+        </dl>
+        <div class="mt-4 rounded-xl border border-cyan/25 bg-cyan/10 p-4">
+          <p class="text-[13px] font-medium text-cyan">Flagged for the reviewer</p>
+          <p class="mt-1.5 text-[15px] leading-relaxed text-white">Option C may also be defensible. Confirm or replace before publishing.</p>
+        </div>
+        <p class="mt-5 text-[12px] text-mist">${INTERFACE_NOTE}</p>
+      </div>`;
+
+const aiQuizGenerator = topicPage({
+  out: "ai-quiz-generator.html",
+  canonical: "/ai-quiz-generator",
+  title: "AI Quiz and Question Paper Generator | GaugeSkills",
+  description:
+    "Generate quizzes and question papers from your own syllabus, every item tagged to a concept and a difficulty, and nothing published until a teacher has approved it.",
+  trail: [AI, { name: "AI quiz generator", path: "/ai-quiz-generator" }],
+  intro: {
+    eyebrow: "AI quiz generation",
+    h1: "Question Papers in Minutes, Reviewed Like an Examiner",
+    lede: "Producing questions is the easy part, and it is where most tools stop. A usable paper needs a blueprint, a difficulty spread, wrong options that are wrong for a reason, and a teacher who was willing to put their name on it.",
+    primaryLabel: "Book a Demo",
+    secondary: { path: "/ai", label: "How the AI layer works" },
+  },
+  aside: quizAside,
+  middle: (rel) => [
+    section({
+      tone: "white",
+      children: `    ${sectionHead({
+        eyebrow: "What this actually means",
+        title: "Start from a blueprint, not from a prompt",
+        lede: "Ask a general-purpose model for ten questions on a chapter and you get ten questions on a chapter: same difficulty, same shape, clustered on whatever the source text emphasised. An assessment is a specification before it is a set of questions.",
+      })}
+    <div class="mt-10 grid gap-5 sm:grid-cols-3">
+      <div data-reveal class="rounded-card border border-hairline p-6">
+        <p class="font-display text-[15px] font-semibold text-teal">You set the coverage</p>
+        <p class="mt-2 text-[15px] leading-relaxed text-slate-body">Which concepts the paper must test and how many marks each is worth. Generation fills the blueprint rather than deciding what matters, so the paper matches what you taught.</p>
+      </div>
+      <div data-reveal style="--reveal-delay: 60ms" class="rounded-card border border-hairline p-6">
+        <p class="font-display text-[15px] font-semibold text-teal">You set the difficulty spread</p>
+        <p class="mt-2 text-[15px] leading-relaxed text-slate-body">A paper of uniformly moderate questions separates nobody. Specify the mix across recall, application and analysis and the generated set is built to it.</p>
+      </div>
+      <div data-reveal class="rounded-card border border-hairline p-6">
+        <p class="font-display text-[15px] font-semibold text-teal">Every item is tagged</p>
+        <p class="mt-2 text-[15px] leading-relaxed text-slate-body">Each question carries the concept it tests and the level it targets. That tagging is what turns a mark into a diagnosis afterwards, and it is why the results are usable.</p>
+      </div>
+    </div>
+    <p data-reveal class="mt-8 max-w-3xl text-[15px] leading-relaxed text-slate-body">
+      The tagging is the quiet part that matters most. A paper of untagged questions produces a number; a paper of tagged questions produces a list of concepts the class has not understood.
+      <a href="${rel("/student-performance-analytics")}" class="font-semibold text-teal underline-offset-4 hover:underline">See what tagged results make possible</a>.
+    </p>`,
+    }),
+    section({
+      tone: "paper",
+      children: `    ${sectionHead({
+        eyebrow: "Item quality",
+        title: "Six ways a generated question goes wrong",
+        lede: "Anyone who has reviewed machine-written questions has met all of these. They are worth naming, because a tool that does not check for them is asking the teacher to be the entire quality process.",
+      })}
+    ${cardGrid(
+      [
+        { tag: "Fault 01", title: "Distractors nobody would pick", body: "Three wrong options that are obviously wrong turn a four-option question into a true-or-false. Each distractor should correspond to a specific mistake a learner actually makes." },
+        { tag: "Fault 02", title: "More than one defensible answer", body: "The most common serious fault and the hardest to spot at speed. Candidate items are checked for it and flagged to the reviewer rather than quietly published." },
+        { tag: "Fault 03", title: "Testing the phrasing, not the concept", body: "A question answerable by recognising wording lifted from the textbook measures reading memory. Items are written to require the concept rather than the sentence." },
+        { tag: "Fault 04", title: "An ambiguous stem", body: "If a capable student has to guess what is being asked, the item measures inference. Stems are checked for the vagueness that only shows up under exam pressure." },
+        { tag: "Fault 05", title: "Difficulty drift", body: "Generated sets tend to converge on the middle. The blueprint is enforced across the whole paper, not item by item, so the spread you asked for survives." },
+        { tag: "Fault 06", title: "Answers hidden in the options", body: "Length, grammatical agreement and specificity all leak the correct answer to a test-wise student. These patterns are checked before an item reaches review." },
+      ],
+      { columns: 3 },
+    )}`,
+    }),
+    section({
+      tone: "ink",
+      children: `    <div class="grid items-start gap-12 lg:grid-cols-[1fr_1fr]">
+      <div>
+        ${sectionHead({
+          eyebrow: "The workflow",
+          title: "Nothing reaches a student unreviewed",
+          lede: "Speed is only worth having if the output is safe to use. The path from a blueprint to a published paper has a person in it, and the platform is built so that person's job is reviewing rather than rewriting.",
+          tone: "dark",
+        })}
+        <ol class="mt-8 space-y-4">
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span class="text-[15px] leading-relaxed text-mist"><span class="font-semibold text-white">Specify.</span> Concepts, marks, difficulty mix and question types, drawn from the syllabus already loaded.</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span class="text-[15px] leading-relaxed text-mist"><span class="font-semibold text-white">Generate.</span> Candidate items produced against your own course material rather than the open internet.</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span class="text-[15px] leading-relaxed text-mist"><span class="font-semibold text-white">Screen.</span> Automated checks for the six faults above. Suspect items arrive flagged, with the reason stated.</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span class="text-[15px] leading-relaxed text-mist"><span class="font-semibold text-white">Review.</span> The teacher accepts, edits or rejects each item. Rejections are cheap; a replacement is one click.</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span class="text-[15px] leading-relaxed text-mist"><span class="font-semibold text-white">Publish.</span> Approved items go to the class and into the bank, attributed to the person who approved them.</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan"></span><span class="text-[15px] leading-relaxed text-mist"><span class="font-semibold text-white">Learn from the results.</span> Items everyone answers correctly, or nobody does, are surfaced for retirement next time.</span></li>
+        </ol>
+        <div class="mt-9">
+          <a href="${rel("/ai")}" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-6 py-3 text-[15px] font-semibold text-white transition-all duration-200 ease-out hover:border-cyan hover:text-cyan">What the AI will not do</a>
+        </div>
+      </div>
+      <div data-reveal class="rounded-card border border-white/10 bg-white/5 p-7">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">The same tool, three jobs</p>
+        <dl class="mt-6 space-y-5">
+          <div>
+            <dt class="text-[15px] font-semibold text-white">Schools</dt>
+            <dd class="mt-1.5 text-[15px] leading-relaxed text-mist">Weekly class tests and practice sets against the subject syllabus, generated in a free period rather than an evening. <a href="${rel("/schools")}" class="font-semibold text-cyan underline-offset-4 hover:underline">For schools</a>.</dd>
+          </div>
+          <div>
+            <dt class="text-[15px] font-semibold text-white">Higher Education</dt>
+            <dd class="mt-1.5 text-[15px] leading-relaxed text-mist">Unit tests and question banks per course, tagged to outcomes so results feed department reporting. <a href="${rel("/ai-for-faculty")}" class="font-semibold text-cyan underline-offset-4 hover:underline">AI for faculty</a>.</dd>
+          </div>
+          <div>
+            <dt class="text-[15px] font-semibold text-white">Enterprise</dt>
+            <dd class="mt-1.5 text-[15px] leading-relaxed text-mist">Knowledge checks inside a skill assessment, written against the level definitions a role standard uses. <a href="${rel("/employee-skill-assessment")}" class="font-semibold text-cyan underline-offset-4 hover:underline">Skill assessment</a>.</dd>
+          </div>
+        </dl>
+      </div>
+    </div>`,
+    }),
+  ],
+  faqTitle: "What teachers and faculty ask",
+  faqs: [
+    {
+      q: "Are the generated questions accurate?",
+      a: "Mostly, and not reliably enough to publish unreviewed, which is why the workflow does not allow it. Grounding generation in your own course material removes a large class of errors, and the automated screening catches several more. What remains is a review step measured in minutes rather than the hours it takes to write a paper from scratch.",
+    },
+    {
+      q: "Can it produce anything other than multiple choice?",
+      a: "Yes. Short answer, numerical, matching, true or false and longer written prompts with a marking rubric attached. Multiple choice gets the most attention because it is the format where item quality fails most quietly, but a paper built only from one format measures the format as much as the subject.",
+    },
+    {
+      q: "Does every student get the same paper?",
+      a: "Your choice per assessment. For a formal test, one fixed paper is usually what an institution wants. For practice, generating a different set per student from the same blueprint is more useful, because it makes the practice genuinely individual and makes copying pointless.",
+    },
+    {
+      q: "Can it grade the results as well?",
+      a: "Objective items are marked automatically, and written answers can be given draft feedback against the rubric. Final marks on formal or high-stakes assessments stay with the examiner. That boundary is deliberate: marking carries academic and regulatory weight that should not sit with a model.",
+    },
+  ],
+  close: {
+    title: "Bring a chapter and a blueprint",
+    lede: "Pick a unit you have taught and tell us how you would weight a test on it. We will generate the paper live, flags and all, and you can tell us which items you would have thrown out.",
+    primaryLabel: "Book a Demo",
+    secondary: { path: "/ai-for-faculty", label: "The wider faculty co-pilot" },
+  },
+  links: [
+    { label: "AI", path: "/ai", note: "The full AI layer, and the limits it works inside." },
+    { label: "AI for faculty", path: "/ai-for-faculty", note: "Course material, pacing and remediation beyond assessments." },
+    { label: "AI tutor", path: "/ai-tutor", note: "What happens after a student gets a question wrong." },
+    { label: "Schools", path: "/schools", note: "Class tests and practice sets against the subject syllabus." },
+    { label: "Student performance analytics", path: "/student-performance-analytics", note: "What tagged questions make possible once the results land." },
+    { label: "The platform", path: "/platform", note: "Where assessments, learning and analytics sit together." },
   ],
 });
 
@@ -1337,4 +2104,8 @@ export const topicPages = [
   skillsGapAnalysis,
   upskilling,
   reskilling,
+  competencyManagement,
+  learningPaths,
+  workforceAnalytics,
+  aiQuizGenerator,
 ];

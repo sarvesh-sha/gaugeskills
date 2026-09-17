@@ -9,6 +9,7 @@
     "build:pages": "node tools/build/build.mjs",
     "build:css": "tailwindcss -i css/tailwind.css -o css/styles.css --minify",
     "watch:css": "tailwindcss -i css/tailwind.css -o css/styles.css --watch",
+    "serve": "node tools/serve.mjs",
     "audit": "node tools/build/audit.mjs",
     "check": "npm run build && npm run audit"
   },

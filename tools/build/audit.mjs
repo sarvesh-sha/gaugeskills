@@ -53,15 +53,47 @@ const decode = (text) =>
     .replace(/&mdash;/g, "\u2014")
     .replace(/&nbsp;/g, " ");
 
+/**
+ * Breadth-first walk of the internal link graph from the homepage.
+ *
+ * The brief requires every commercial page to sit within a few clicks of the
+ * front door, which is the kind of property that silently degrades as pages
+ * are added. Measuring it is cheap; noticing it by hand is not.
+ *
+ * @param {Map<string, string[]>} graph File -> internal files it links to.
+ * @returns {Map<string, number>} File -> clicks from index.html.
+ */
+function depthsFrom(graph, start = "index.html") {
+  const depths = new Map([[start, 0]]);
+  let frontier = [start];
+
+  while (frontier.length) {
+    const next = [];
+    for (const file of frontier) {
+      for (const target of graph.get(file) ?? []) {
+        if (depths.has(target)) continue;
+        depths.set(target, depths.get(file) + 1);
+        next.push(target);
+      }
+    }
+    frontier = next;
+  }
+
+  return depths;
+}
+
 async function main() {
   const files = (await htmlFiles()).sort();
   const titles = new Map();
   const descriptions = new Map();
   const canonicals = new Map();
+  const graph = new Map();
+  const indexable = new Set();
 
   for (const file of files) {
     const html = await readFile(path.join(ROOT, file), "utf8");
     const noindex = /<meta name="robots" content="noindex/.test(html);
+    if (!noindex) indexable.add(file);
 
     /* ------------------------------------------------------------ titles */
 
@@ -131,11 +163,16 @@ async function main() {
     /* ------------------------------------------------------------- links */
 
     const dir = path.dirname(path.join(ROOT, file));
+    const outbound = new Set();
     for (const href of all(html, /href="([^"]+)"/g)) {
       if (/^(https?:|mailto:|tel:|#|data:)/.test(href)) continue;
       const target = path.resolve(dir, href.split("#")[0]);
       if (!existsSync(target)) fail(file, `broken link: ${href}`);
+      else if (target.endsWith(".html")) {
+        outbound.add(path.relative(ROOT, target).split(path.sep).join("/"));
+      }
     }
+    graph.set(file, [...outbound]);
 
     for (const src of all(html, /(?:src|content)="((?:\.\.\/)*(?:og|brand|js|css|fonts)\/[^"]+)"/g)) {
       if (!existsSync(path.resolve(dir, src))) fail(file, `missing asset: ${src}`);
@@ -171,9 +208,24 @@ async function main() {
     if (!canonicals.has(loc)) fail("sitemap.xml", `lists ${loc}, which no page declares as canonical`);
   }
 
+  /* --------------------------------------------------------- reachability */
+
+  const depths = depthsFrom(graph);
+  let deepest = 0;
+
+  for (const file of indexable) {
+    const depth = depths.get(file);
+    if (depth === undefined) fail(file, "orphan: not reachable from the homepage");
+    else {
+      deepest = Math.max(deepest, depth);
+      if (depth > 3) warn(file, `${depth} clicks from the homepage (want 3 or fewer)`);
+    }
+  }
+
   /* -------------------------------------------------------------- report */
 
   console.log(`audited ${files.length} pages`);
+  console.log(`deepest indexable page: ${deepest} click(s) from the homepage`);
 
   if (warnings.length) {
     console.log(`\n${warnings.length} warning(s):`);
