@@ -24,6 +24,9 @@ export const site = {
     "An AI-powered Skills & Learning Intelligence platform for schools, colleges and enterprises.",
 
   category: "AI-powered Skills & Learning Intelligence Platform",
+
+  /** GA4 measurement ID for the public marketing site. Empty string disables the tag. */
+  analyticsId: "G-FGHC5J92BJ",
 };
 
 /** The product philosophy, rendered as a flow on the homepage and /platform. */

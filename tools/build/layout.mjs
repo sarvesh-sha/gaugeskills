@@ -9,6 +9,27 @@
 import { esc, footerNav, logo, primaryNav, site } from "./site.mjs";
 
 /**
+ * GA4 tag for the public site. Omitted on noindex pages (the 404) and when
+ * no measurement ID is configured.
+ *
+ * @param {object} page
+ * @returns {string}
+ */
+function analyticsTag(page) {
+  if (page.noindex || !site.analyticsId) return "";
+
+  const id = esc(site.analyticsId);
+  return `
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+      gtag("config", "${id}");
+    </script>`;
+}
+
+/**
  * Build a link resolver for a page emitted at `out` (e.g. "blog/ai-tutor.html").
  *
  * @param {string} out Output path relative to the site root.
@@ -292,7 +313,7 @@ export function document_(page) {
 
     <script type="application/ld+json">
 ${page.schema}
-    </script>
+    </script>${analyticsTag(page)}
   </head>
 
   <body class="min-h-screen antialiased">
