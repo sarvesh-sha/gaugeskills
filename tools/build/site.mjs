@@ -109,6 +109,7 @@ export const primaryNav = [
     ],
   },
   { label: "About", path: "/about" },
+  { label: "Contact", path: "/contact" },
 ];
 
 export const footerNav = [

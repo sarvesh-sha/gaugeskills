@@ -152,7 +152,10 @@ function mobileNav(rel, active) {
           <ul class="flex flex-col">
 ${items.join("\n")}
           </ul>
-          <a href="${rel("/demo")}" class="mt-5 flex justify-center rounded-full bg-teal px-5 py-3 font-semibold text-white"
+          <a href="${rel("/contact")}" class="mt-5 flex justify-center rounded-full border border-hairline px-5 py-3 font-semibold text-ink"${active === "/contact" ? ' aria-current="page"' : ""}
+            >Contact us</a
+          >
+          <a href="${rel("/demo")}" class="mt-3 flex justify-center rounded-full bg-teal px-5 py-3 font-semibold text-white"${active === "/demo" ? ' aria-current="page"' : ""}
             >Book a demo</a
           >
         </nav>
@@ -171,10 +174,17 @@ export function header(rel, active) {
 
         ${desktopNav(rel, active)}
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a
+            href="${rel("/contact")}"
+            class="hidden rounded-full border border-hairline px-5 py-2.5 text-[15px] font-semibold text-ink transition-colors hover:border-teal hover:text-teal sm:inline-flex"
+            ${active === "/contact" ? 'aria-current="page"' : ""}
+            >Contact us</a
+          >
           <a
             href="${rel("/demo")}"
             class="hidden rounded-full bg-teal px-5 py-2.5 text-[15px] font-semibold text-white shadow-soft transition-colors hover:bg-teal-deep sm:inline-flex"
+            ${active === "/demo" ? 'aria-current="page"' : ""}
             >Book a demo</a
           >
           <button
