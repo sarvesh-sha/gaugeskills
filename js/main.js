@@ -282,22 +282,163 @@
     observeOnce([tutorCard], typePrompt, "-120px");
   }
 
-  /* ------------------------------------------------------------ demo form */
+  /* ------------------------------------------------------------- lead forms */
 
-  // POST target for the demo form. There is no server behind a static build,
-  // so while this is empty the form composes an email instead.
-  const FORM_ENDPOINT = "";
+  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const demoForm = document.getElementById("demo-form");
+  /**
+   * Wire one lead form. If the form posts to an https endpoint (Web3Forms),
+   * submit there and stay on the page. Otherwise open a mailto. A filled
+   * honeypot (`website`) is treated as spam and acknowledged silently.
+   *
+   * @param {object} config
+   * @param {string} config.formId
+   * @param {string} config.successId
+   * @param {string} config.titleId
+   * @param {string} config.bodyId
+   * @param {string} config.submitId
+   * @param {string} config.errorId
+   * @param {string} config.resetId
+   * @param {string} config.submitLabel
+   * @param {(data: Record<string, string>) => Record<string, string>} config.validate
+   * @param {(data: Record<string, string>) => string} config.subject
+   * @param {{posted: {title: string, body: string}, email: {title: string, body: string}}} config.messages
+   */
+  const bindLeadForm = ({
+    formId,
+    successId,
+    titleId,
+    bodyId,
+    submitId,
+    errorId,
+    resetId,
+    submitLabel,
+    validate,
+    subject,
+    messages,
+  }) => {
+    const form = document.getElementById(formId);
+    if (!form) return;
 
-  if (demoForm) {
-    const successPanel = document.getElementById("demo-success");
-    const successTitle = document.getElementById("demo-success-title");
-    const successBody = document.getElementById("demo-success-body");
-    const submitButton = document.getElementById("demo-submit");
-    const failure = document.getElementById("demo-error");
+    const successPanel = document.getElementById(successId);
+    const successTitle = document.getElementById(titleId);
+    const successBody = document.getElementById(bodyId);
+    const submitButton = document.getElementById(submitId);
+    const failure = document.getElementById(errorId);
 
-    const messages = {
+    const showError = (name, message) => {
+      const target = form.querySelector(`[data-error-for="${name}"]`);
+      if (!target) return;
+      target.textContent = message;
+      target.hidden = false;
+    };
+
+    const clearErrors = () => {
+      form.querySelectorAll("[data-error-for]").forEach((element) => {
+        element.hidden = true;
+        element.textContent = "";
+      });
+      if (failure) failure.hidden = true;
+    };
+
+    const mailtoFor = (data) => {
+      const lines = Object.entries(data)
+        .filter(([key, value]) => key !== "website" && String(value).trim())
+        .map(([key, value]) => `${key}: ${value}`);
+
+      return `mailto:hello@gaugeskills.com?subject=${encodeURIComponent(
+        subject(data),
+      )}&body=${encodeURIComponent(lines.join("\n"))}`;
+    };
+
+    const succeed = (mode) => {
+      successTitle.textContent = messages[mode].title;
+      successBody.textContent = messages[mode].body;
+      form.hidden = true;
+      successPanel.hidden = false;
+      successPanel.scrollIntoView({ behavior: "smooth", block: "center" });
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearErrors();
+
+      const data = Object.fromEntries(new FormData(form));
+
+      if (String(data.website ?? "").trim()) {
+        form.reset();
+        succeed("posted");
+        return;
+      }
+
+      const errors = validate(data);
+
+      if (Object.keys(errors).length) {
+        Object.entries(errors).forEach(([name, message]) => showError(name, message));
+        form.querySelector(`[name="${Object.keys(errors)[0]}"]`)?.focus();
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending…";
+
+      const endpoint = form.getAttribute("action") ?? "";
+      const remote = /^https:\/\//i.test(endpoint);
+
+      try {
+        if (remote) {
+          const payload = Object.fromEntries(
+            Object.entries(data).filter(
+              ([key, value]) => key !== "website" && key !== "botcheck" && String(value).trim(),
+            ),
+          );
+          payload.subject = subject(data);
+
+          const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || result.success === false) {
+            throw new Error(result.message || "Request failed");
+          }
+          form.reset();
+          succeed("posted");
+        } else {
+          window.location.href = mailtoFor(data);
+          form.reset();
+          succeed("email");
+        }
+      } catch {
+        if (failure) failure.hidden = false;
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = submitLabel;
+      }
+    });
+
+    document.getElementById(resetId)?.addEventListener("click", () => {
+      successPanel.hidden = true;
+      form.hidden = false;
+      form.querySelector("[name='name']")?.focus();
+    });
+  };
+
+  bindLeadForm({
+    formId: "demo-form",
+    successId: "demo-success",
+    titleId: "demo-success-title",
+    bodyId: "demo-success-body",
+    submitId: "demo-submit",
+    errorId: "demo-error",
+    resetId: "demo-reset",
+    submitLabel: "Request a session",
+    subject: (data) => `Demo request — ${data.institution}`,
+    messages: {
       posted: {
         title: "Thank you — that has reached us.",
         body: "We will reply within two working days with a proposed time. If it is easier, write to us directly and we will pick it up from there.",
@@ -306,100 +447,46 @@
         title: "Your email client should be open.",
         body: "We could not send this from the page itself, so we have composed the message for you instead. Send it and we will reply within two working days.",
       },
-    };
-
-    const showError = (name, message) => {
-      const target = demoForm.querySelector(`[data-error-for="${name}"]`);
-      if (!target) return;
-      target.textContent = message;
-      target.hidden = false;
-    };
-
-    const clearErrors = () => {
-      demoForm.querySelectorAll("[data-error-for]").forEach((element) => {
-        element.hidden = true;
-        element.textContent = "";
-      });
-      failure.hidden = true;
-    };
-
-    const validate = (data) => {
+    },
+    validate: (data) => {
       const errors = {};
       if (!data.name?.trim()) errors.name = "Please tell us who you are.";
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email ?? "")) {
-        errors.email = "Enter an email we can reply to.";
-      }
-      if (!data.institution?.trim()) {
-        errors.institution = "Which school, college or organization?";
-      }
+      if (!EMAIL.test(data.email ?? "")) errors.email = "Enter an email we can reply to.";
+      if (!data.institution?.trim()) errors.institution = "Which school, college or organization?";
       if (!data.organizationType) errors.organizationType = "Pick the closest type.";
       if (!data.role) errors.role = "Pick the closest role.";
       return errors;
-    };
+    },
+  });
 
-    const mailtoFor = (data) => {
-      const lines = Object.entries(data)
-        .filter(([, value]) => String(value).trim())
-        .map(([key, value]) => `${key}: ${value}`);
-
-      return `mailto:hello@gaugeskills.com?subject=${encodeURIComponent(
-        `Demo request — ${data.institution}`,
-      )}&body=${encodeURIComponent(lines.join("\n"))}`;
-    };
-
-    const succeed = (mode) => {
-      successTitle.textContent = messages[mode].title;
-      successBody.textContent = messages[mode].body;
-      demoForm.hidden = true;
-      successPanel.hidden = false;
-      successPanel.scrollIntoView({ behavior: "smooth", block: "center" });
-    };
-
-    demoForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      clearErrors();
-
-      const data = Object.fromEntries(new FormData(demoForm));
-      const errors = validate(data);
-
-      if (Object.keys(errors).length) {
-        Object.entries(errors).forEach(([name, message]) => showError(name, message));
-        demoForm.querySelector(`[name="${Object.keys(errors)[0]}"]`)?.focus();
-        return;
-      }
-
-      submitButton.disabled = true;
-      submitButton.textContent = "Sending…";
-
-      try {
-        if (FORM_ENDPOINT) {
-          const response = await fetch(FORM_ENDPOINT, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-          });
-          if (!response.ok) throw new Error("Request failed");
-          demoForm.reset();
-          succeed("posted");
-        } else {
-          window.location.href = mailtoFor(data);
-          demoForm.reset();
-          succeed("email");
-        }
-      } catch {
-        failure.hidden = false;
-      } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = "Request a session";
-      }
-    });
-
-    document.getElementById("demo-reset")?.addEventListener("click", () => {
-      successPanel.hidden = true;
-      demoForm.hidden = false;
-      demoForm.querySelector("[name='name']")?.focus();
-    });
-  }
+  bindLeadForm({
+    formId: "contact-form",
+    successId: "contact-success",
+    titleId: "contact-success-title",
+    bodyId: "contact-success-body",
+    submitId: "contact-submit",
+    errorId: "contact-error",
+    resetId: "contact-reset",
+    submitLabel: "Send message",
+    subject: (data) => `Contact — ${data.name}`,
+    messages: {
+      posted: {
+        title: "Thank you — that has reached us.",
+        body: "We will reply within two working days. If it is easier, write to us directly and we will pick it up from there.",
+      },
+      email: {
+        title: "Your email client should be open.",
+        body: "We could not send this from the page itself, so we have composed the message for you instead. Send it and we will reply within two working days.",
+      },
+    },
+    validate: (data) => {
+      const errors = {};
+      if (!data.name?.trim()) errors.name = "Please tell us who you are.";
+      if (!EMAIL.test(data.email ?? "")) errors.email = "Enter an email we can reply to.";
+      if (!data.message?.trim()) errors.message = "Tell us what you would like to talk about.";
+      return errors;
+    },
+  });
 
   /* ----------------------------------------------------------------- misc */
 

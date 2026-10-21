@@ -154,6 +154,7 @@ export const footerNav = [
     heading: "Company",
     links: [
       { label: "About", path: "/about" },
+      { label: "Contact", path: "/contact" },
       { label: "Book a demo", path: "/demo" },
       { label: "Privacy", path: "/privacy" },
       { label: "Terms", path: "/terms" },

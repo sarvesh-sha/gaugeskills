@@ -29,6 +29,7 @@ const PRIORITY = {
   "/ai": "0.9",
   "/skills": "0.9",
   "/demo": "0.8",
+  "/contact": "0.8",
   "/pricing": "0.8",
 };
 

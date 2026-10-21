@@ -117,6 +117,16 @@ export const legacyPages = [
     breadcrumbs: [{ name: "Book a demo", path: "/demo" }],
   },
   {
+    out: "contact.html",
+    canonical: "/contact",
+    legacy: "contact",
+    title: "Contact · GaugeSkills",
+    description:
+      "Questions about GaugeSkills, a partnership or an existing account? Send a message and we will reply within two working days.",
+    ogImage: "og/contact.png",
+    breadcrumbs: [{ name: "Contact", path: "/contact" }],
+  },
+  {
     out: "about.html",
     canonical: "/about",
     legacy: "about",

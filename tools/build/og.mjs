@@ -47,6 +47,7 @@ const CARDS = {
   security: ["Security", "The questions procurement asks first."],
   pricing: ["Pricing", "Prove it on one department first."],
   demo: ["Book a demo", "One conversation. One clear next step."],
+  contact: ["Contact", "A question, a partnership, or an existing account."],
   about: ["About", "Built around a question institutions cannot answer today."],
   blog: ["Blog", "Writing on learning, skills and AI."],
   privacy: ["Privacy", "How we handle personal data."],

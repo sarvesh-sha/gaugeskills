@@ -449,7 +449,16 @@
             </div>
           </div>
 
-          <form id="demo-form" novalidate class="rounded-card bg-white p-7 shadow-soft md:p-9">
+          <form
+            id="demo-form"
+            action="https://api.web3forms.com/submit"
+            method="POST"
+            novalidate
+            class="rounded-card bg-white p-7 shadow-soft md:p-9"
+          >
+            <input type="hidden" name="access_key" value="8fc82663-8581-428f-8d8c-67d3ffdeb606" />
+            <input type="hidden" name="subject" value="Demo request — GaugeSkills" />
+            <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
             <div class="grid gap-5 sm:grid-cols-2">
               <div>
                 <label for="name" class="block text-[14px] font-semibold text-ink">Your name</label>
@@ -713,6 +722,7 @@
               <h2 class="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">Company</h2>
               <ul class="mt-4 space-y-2.5">
                 <li><a href="about.html" class="text-[15px] text-mist transition-colors hover:text-white">About</a></li>
+                <li><a href="contact.html" class="text-[15px] text-mist transition-colors hover:text-white">Contact</a></li>
                 <li><a href="demo.html" class="text-[15px] text-mist transition-colors hover:text-white">Book a demo</a></li>
                 <li><a href="privacy.html" class="text-[15px] text-mist transition-colors hover:text-white">Privacy</a></li>
                 <li><a href="terms.html" class="text-[15px] text-mist transition-colors hover:text-white">Terms</a></li>
