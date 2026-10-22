@@ -346,7 +346,7 @@
         .filter(([key, value]) => key !== "website" && String(value).trim())
         .map(([key, value]) => `${key}: ${value}`);
 
-      return `mailto:hello@gaugeskills.com?subject=${encodeURIComponent(
+      return `mailto:info@gaugeskills.com?subject=${encodeURIComponent(
         subject(data),
       )}&body=${encodeURIComponent(lines.join("\n"))}`;
     };

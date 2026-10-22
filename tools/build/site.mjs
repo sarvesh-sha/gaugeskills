@@ -8,7 +8,7 @@
 export const site = {
   name: "GaugeSkills",
   url: "https://gaugeskills.com",
-  email: "hello@gaugeskills.com",
+  email: "info@gaugeskills.com",
   locale: "en-IN",
   lang: "en-IN",
 
