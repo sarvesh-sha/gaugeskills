@@ -27,6 +27,9 @@ export const site = {
 
   /** GA4 measurement ID for the public marketing site. Empty string disables the tag. */
   analyticsId: "G-FGHC5J92BJ",
+
+  /** Google Tag Manager container ID. Empty string disables the container. */
+  gtmId: "GTM-573GHCJ5",
 };
 
 /** The product philosophy, rendered as a flow on the homepage and /platform. */

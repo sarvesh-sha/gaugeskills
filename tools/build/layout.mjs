@@ -9,6 +9,44 @@
 import { esc, footerNav, logo, primaryNav, site } from "./site.mjs";
 
 /**
+ * Google Tag Manager head snippet. Omitted on noindex pages and when no
+ * container ID is configured. Must be paired with gtmNoscript().
+ *
+ * @param {object} page
+ * @returns {string}
+ */
+function gtmHead(page) {
+  if (page.noindex || !site.gtmId) return "";
+
+  const id = esc(site.gtmId);
+  return `
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${id}');</script>
+    <!-- End Google Tag Manager -->`;
+}
+
+/**
+ * Google Tag Manager noscript fallback. Placed immediately after <body>.
+ *
+ * @param {object} page
+ * @returns {string}
+ */
+function gtmNoscript(page) {
+  if (page.noindex || !site.gtmId) return "";
+
+  const id = esc(site.gtmId);
+  return `
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${id}"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->`;
+}
+
+/**
  * GA4 tag for the public site. Omitted on noindex pages (the 404) and when
  * no measurement ID is configured.
  *
@@ -323,10 +361,10 @@ export function document_(page) {
 
     <script type="application/ld+json">
 ${page.schema}
-    </script>${analyticsTag(page)}
+    </script>${gtmHead(page)}${analyticsTag(page)}
   </head>
 
-  <body class="min-h-screen antialiased">
+  <body class="min-h-screen antialiased">${gtmNoscript(page)}
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-white"
